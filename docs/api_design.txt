@@ -1,0 +1,52 @@
+
+
+POST /login
+
+    Payload:
+        {
+            username: ""
+            password: dgfn393n2fkf201
+        }
+    Response:
+        If user exists and password correct -> Status: 302 (Found), Header: Location: /home
+
+        Server:
+        Verifies username + password
+        Creates a session
+        Stores user info in the session
+
+        Sends back:
+        A Set-Cookie header (session ID)
+        A redirect
+
+        So the response is:
+        Status: 302 Found
+        Header:
+        Location: /home
+        Set-Cookie: JSESSIONID=...
+        Then:
+        Browser automatically:
+        GET /home
+        with the session cookie attached.
+
+        If username wrong or password wrong -> Status: usually still 200 OK (page reload) Message: "Invalid username or password"
+
+
+POST /addToBasket
+
+POST /processOrder
+
+GET /catalogItems
+    request parameters:
+        style?
+        price?
+        size?
+        condition?
+
+
+GET /items/{id}
+
+    response:
+        dynamically render product
+
+
