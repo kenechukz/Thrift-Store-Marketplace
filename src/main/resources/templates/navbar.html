@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title></title>
+</head>
+<body>
+    <div th:fragment="navbar" class="topnav">
+        <a th:classappend="${path == '/home' or path == '/'} ? ' active' : ''" href="/home">Home</a>
+        <a th:classappend="${path == '/catalogue'} ? ' active' : ''" href="/catalogue">Catalogue</a>
+        <a th:classappend="${path == '/basket'} ? ' active' : ''" href="/basket">Basket</a>
+        <a th:classappend="${path == '/orders'} ? ' active' : ''" href="/orders">Orders</a>
+    </div>
+</body>
+</html>

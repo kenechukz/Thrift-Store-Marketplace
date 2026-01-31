@@ -1,15 +1,21 @@
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-
     <title>Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+    <div th:replace="~{navbar :: navbar}"></div>
 
-<h1>Home</h1>
-
+    <div class="home-body">
+        <h1 th:text="${message}">Placeholder</h1>
+        <div class="items-container">
+            <div class="item-card"></div>
+            <div class="item-card"></div>
+            <div class="item-card"></div>
+        </div>
+    </div>
 
 
 </body>
-
-
 </html>
