@@ -138,6 +138,8 @@ body {
     border: 1px solid black ;
     border-radius: 15px;
     padding: 14px;
+    display: flex;
+    gap: 20px;
 }
 
 .basket {
@@ -155,8 +157,6 @@ body {
     margin: 0;
     padding: 0;
 }
-
-/* CSS for basket.html */
 
 .order-summary {
     height: 312px;
@@ -176,6 +176,11 @@ body {
     background-color: #eceaea;
 }
 
+.basket-item-body {
+    display: grid;
+    grid-template-columns: auto;
+}
+
 .order-summary-footer {
 
     margin: 100px 30px 30px;
@@ -190,7 +195,20 @@ body {
     margin: 8px 0;
 }
 
+.quantity {
+    display: flex;
+    gap: 8px;
+}
 
+.quantity-box {
+    width: 25px;
+    height: 23.527px;
+    border: #767676 solid 1px;
+    display: flex;
+    align-items: center;      /* vertical */
+    justify-content: center;  /* horizontal */
+    border-radius: 6px;
+}
 
 
 @media (max-width: 1100px) {
