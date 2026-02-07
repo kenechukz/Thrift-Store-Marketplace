@@ -135,7 +135,7 @@ body {
 .basket-item {
     width: 674px;
     height: 148px;
-    border: 1px solid black ;
+    border: 1px solid #ccc;
     border-radius: 15px;
     padding: 14px;
     display: flex;
@@ -161,7 +161,7 @@ body {
 .order-summary {
     height: 312px;
     width: 299px;
-    border: 1px solid black;
+    border: 1px solid #ccc;
     margin: 0;
     padding: 0;
     border-radius: 15px;
@@ -210,6 +210,115 @@ body {
     border-radius: 6px;
 }
 
+
+/* CSS for orders page */
+
+.orders-body {
+    padding: 20px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.orders-body h1 {
+    margin-bottom: 24px;
+}
+
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-card {
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 20px 24px;
+}
+
+.order-header {
+    margin-bottom: 16px;
+}
+
+.order-header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.order-id {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.order-status {
+    background-color: #1a1a1a;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 4px;
+}
+
+.order-header-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #666;
+    font-size: 14px;
+}
+
+.order-date, .order-total {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.order-item-image {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    background-color: #eceaea;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #999;
+}
+
+.order-item-details {
+    flex: 1;
+}
+
+.order-item-name {
+    font-weight: 600;
+    margin: 0;
+}
+
+.order-item-qty {
+    margin: 2px 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.order-item-price {
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+}
 
 @media (max-width: 1100px) {
 

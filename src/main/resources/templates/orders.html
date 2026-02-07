@@ -5,6 +5,81 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div th:replace="~{navbar :: navbar}"></div>
+    <div th:replace="~{navbar :: navbar}"></div>
+
+    <div class="orders-body">
+        <h1>Order History</h1>
+
+        <div class="orders-list">
+            <script>
+                const orders = [
+                    {
+                        id: "0000",
+                        status: "Delivered",
+                        date: "1/1/2026",
+                        total: "€10.00",
+                        items: [
+                            { name: "Item 1", qty: 1, price: "€5.00" },
+                            { name: "Item 2", qty: 2, price: "€2.50" }
+                        ]
+                    },
+                    {
+                        id: "0001",
+                        status: "Delivered",
+                        date: "1/1/2026",
+                        total: "€10.00",
+                        items: [
+                            { name: "Item 1", qty: 1, price: "€5.00" },
+                            { name: "Item 2", qty: 2, price: "€2.50" }
+                        ]
+                    },
+                    {
+                        id: "0002",
+                        status: "Delivered",
+                        date: "1/1/2026",
+                        total: "€10.00",
+                        items: [
+                            { name: "Item 1", qty: 1, price: "€5.00" },
+                            { name: "Item 2", qty: 2, price: "€2.50" }
+                        ]
+                    }
+                ];
+
+                for (const order of orders) {
+                    let itemsHtml = '';
+                    for (const item of order.items) {
+                        itemsHtml += `
+                            <div class="order-item">
+                                <div class="order-item-image"></div>
+                                <div class="order-item-details">
+                                    <p class="order-item-name">${item.name}</p>
+                                    <p class="order-item-qty">Qty: ${item.qty}</p>
+                                </div>
+                                <p class="order-item-price">${item.price}</p>
+                            </div>
+                        `;
+                    }
+
+                    document.write(`
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div class="order-header-top">
+                                    <span class="order-id">Order #${order.id}</span>
+                                    <span class="order-status">${order.status}</span>
+                                </div>
+                                <div class="order-header-meta">
+                                    <span class="order-date">&#128197; ${order.date}</span>
+                                    <span class="order-total">&#9675; ${order.total}</span>
+                                </div>
+                            </div>
+                            <div class="order-items">
+                                ${itemsHtml}
+                            </div>
+                        </div>
+                    `);
+                }
+            </script>
+        </div>
+    </div>
 </body>
 </html>
