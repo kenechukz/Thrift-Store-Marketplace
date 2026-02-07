@@ -6,26 +6,30 @@
 </head>
 <body>
     <div th:replace="~{navbar :: navbar}"></div>
-    <h1 th:text="${message}">Placeholder</h1>
     <div class="catalogue-body">
+        <h1 th:text="${message}">Placeholder</h1>
         <div class="catalogue-items-container">
-            <div class="catalogue-item-card">
-                <div class="catalogue-item-image"></div>
-                <p th:text="${item_name}">Item</p>
-                <p th:text="${price}">Placeholder</p>
-                <button>Add to Basket</button>
-            </div>
-            <div class="catalogue-item-card"></div>
-            <div class="catalogue-item-card"></div>
-            <div class="catalogue-item-card"></div>
-            <div class="catalogue-item-card"></div>
-            <div class="catalogue-item-card"></div>
-            <div class="catalogue-item-card"></div>
-            <div class="catalogue-item-card"></div>
-            <div class="catalogue-item-card"></div>
-            <div class="catalogue-item-card"></div>
-            <div class="catalogue-item-card"></div>
-            <div class="catalogue-item-card"></div>
+
+<!--            <script th:each="item : ${items}">-->
+<!--                <div class="catalogue-item-card">-->
+<!--                    <div class="catalogue-item-image"></div>-->
+<!--                    <p th:text="${item.name}">Item</p>-->
+<!--                    <p th:text="${item.price}">Placeholder</p>-->
+<!--                    <button>Add to Basket</button>-->
+<!--                </div>-->
+
+            <script>
+                for (let i = 0; i < 12; i++) {
+                    document.write(`
+                        <div class="catalogue-item-card">
+                            <div class="catalogue-item-image"></div>
+                            <p>Item</p>
+                            <p>Placeholder</p>
+                            <button>Add to Basket</button>
+                        </div>
+                    `);
+                }
+            </script>
         </div>
     </div>
 </body>

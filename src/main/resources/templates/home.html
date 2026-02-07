@@ -10,9 +10,18 @@
     <div class="home-body">
         <h1 th:text="${message}">Placeholder</h1>
         <div class="items-container">
-            <div class="item-card"></div>
-            <div class="item-card"></div>
-            <div class="item-card"></div>
+            <script>
+                for (let i = 0; i < 3; i++){
+                    document.write(`
+                        <div class="item-card">
+                            <div class="item-image"></div>
+                            <p>Item</p>
+                            <p>Placeholder</p>
+                            <button>Add to Basket</button>
+                        </div>
+                    `)
+                }
+            </script>
         </div>
     </div>
 

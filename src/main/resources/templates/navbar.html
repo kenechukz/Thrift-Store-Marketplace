@@ -6,6 +6,7 @@
 </head>
 <body>
     <div th:fragment="navbar" class="topnav">
+        <img th:src="@{/images/image.png}" alt="Logo">
         <a th:classappend="${path == '/home' or path == '/'} ? ' active' : ''" href="/home">Home</a>
         <a th:classappend="${path == '/catalogue'} ? ' active' : ''" href="/catalogue">Catalogue</a>
         <a th:classappend="${path == '/basket'} ? ' active' : ''" href="/basket">Basket</a>
