@@ -42,11 +42,13 @@ body {
 /* CSS for home page */
 
 .home-body {
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*align-items: center;*/
-    /*justify-content: center;*/
     padding: 20px;
+    max-width: fit-content;
+    margin: 0 auto;
+}
+
+.home-body h1 {
+    margin-left: 16px;
 }
 
 .items-container {
@@ -64,6 +66,12 @@ body {
     width: 412px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
 }
 
 .item-image {
@@ -72,6 +80,45 @@ body {
     object-fit: cover;
     border-radius: 4px;
     background-color: #eceaea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 16px;
+}
+
+.item-card .item-name {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 20px 0 0 0;
+}
+
+.item-card .item-price {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 8px 0 0 0;
+}
+
+.add-to-basket {
+    padding: 12px 24px;
+    background-color: #3c3838;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: "Inter", serif;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-to-basket:hover {
+    background-color: #333;
+}
+
+.item-card .add-to-basket {
+    margin-top: auto;
+    align-self: flex-start;
 }
 
 /* CSS for catalogue page */
@@ -102,6 +149,16 @@ body {
     width: 206px;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.catalogue-item-card .add-to-basket {
+    margin-top: auto;
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 6px;
+    align-self: flex-start;
 }
 
 .catalogue-item-image {
@@ -168,6 +225,34 @@ body {
 
 }
 
+.order-summary-footer {
+
+    margin: 90px 30px 30px;
+    display: grid;
+    grid-template-columns: auto 50px;
+
+}
+
+.order-summary-footer p {
+
+    color: #524F4F;
+    margin: 8px 0;
+}
+
+.basket-checkout {
+    padding: 12px 12px;
+    margin-top: 10px;
+    background-color: #3c3838;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: "Inter", serif;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
 .basket-item-image {
     width: 120px;
     height: 120px;
@@ -179,20 +264,6 @@ body {
 .basket-item-body {
     display: grid;
     grid-template-columns: auto;
-}
-
-.order-summary-footer {
-
-    margin: 100px 30px 30px;
-    display: grid;
-    grid-template-columns: auto 50px;
-
-}
-
-.order-summary-footer p {
-
-    color: #524F4F;
-    margin: 8px 0;
 }
 
 .quantity {

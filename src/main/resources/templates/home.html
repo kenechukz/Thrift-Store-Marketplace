@@ -11,13 +11,13 @@
         <h1 th:text="${message}">Placeholder</h1>
         <div class="items-container">
             <script>
-                for (let i = 0; i < 3; i++){
+                for (let i = 1; i <= 3; i++){
                     document.write(`
                         <div class="item-card">
-                            <div class="item-image"></div>
-                            <p>Item</p>
-                            <p>Placeholder</p>
-                            <button>Add to Basket</button>
+                            <div class="item-image">Image</div>
+                            <p class="item-name">Item ${i}</p>
+                            <p class="item-price">€0.00</p>
+                            <button class="add-to-basket">Add to Basket</button>
                         </div>
                     `)
                 }

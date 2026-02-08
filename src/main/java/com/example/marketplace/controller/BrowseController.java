@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class ShopController {
+public class BrowseController {
 
 
     @GetMapping({"/", "/home"})
@@ -24,15 +24,4 @@ public class ShopController {
         return "catalogue";
     }
 
-    @GetMapping( "/basket")
-    public String basket(Model model, HttpServletRequest request) {
-        model.addAttribute("path", request.getRequestURI());
-        return "basket";
-    }
-
-    @GetMapping( "/orders")
-    public String orders(Model model, HttpServletRequest request) {
-        model.addAttribute("path", request.getRequestURI());
-        return "orders";
-    }
 }
