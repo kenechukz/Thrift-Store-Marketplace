@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body style="height: 1500px">
+    <div th:replace="~{navbar :: navbar}"></div>
+    <div class="product">
+
+        <div class="product-body">
+            <div class="product-image"></div>
+            <div class="product-text">
+                <h1>Item</h1>
+                <p>€0.00</p>
+                <hr>
+                <h2>Description</h2>
+                <p style="margin-bottom: 16px">High-waisted retro denim jeans with a relaxed fit.
+                    Features classic 5-pocket styling and authentic vintage wash. Comfortable and stylish.</p>
+                <hr>
+                <div class="product-metadata">
+                    <div class="product-metadata-top">
+                        <p>Condition</p>
+                        <p>Size</p>
+                        <p>Good</p>
+                        <p>M</p>
+                    </div>
+                    <div class="product-metadata-bottom">
+                        <p style="color: #807b7b;">Material</p>
+                        <p>Leather</p>
+                    </div>
+                </div>
+                <hr>
+                <button class="product-add-to-basket">Add to Basket</button>
+            </div>
+
+        </div>
+        <div class="other-image-views">
+            <div class="product-image-view"></div>
+            <div class="product-image-view"></div>
+            <div class="product-image-view"></div>
+            <div class="product-image-view"></div>
+
+        </div>
+    </div>
+
+</body>
+</html>

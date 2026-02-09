@@ -24,4 +24,13 @@ public class BrowseController {
         return "catalogue";
     }
 
+    @GetMapping( "/product")
+    public String product(Model model, HttpServletRequest request) {
+        model.addAttribute("product", "Jorts");
+        model.addAttribute("path", request.getRequestURI());
+        return "product";
+    }
+
+
+
 }
