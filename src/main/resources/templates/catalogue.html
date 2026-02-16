@@ -8,29 +8,37 @@
     <div th:replace="~{navbar :: navbar}"></div>
     <div class="catalogue-body">
         <h1 th:text="${message}">Placeholder</h1>
-        <div class="catalogue-items-container">
+        <div id="catalogue-items-container">
+            <script th:inline="javascript">
+                const products = /*[[${products}]]*/ [];
+                const container = document.getElementById("catalogue-items-container");
 
-<!--            <script th:each="item : ${items}">-->
-<!--                <div class="catalogue-item-card">-->
-<!--                    <div class="catalogue-item-image"></div>-->
-<!--                    <p th:text="${item.name}">Item</p>-->
-<!--                    <p th:text="${item.price}">Placeholder</p>-->
-<!--                    <button>Add to Basket</button>-->
-<!--                </div>-->
+                products.forEach(product => {
+                    const card = document.createElement("div");
+                    card.classList.add("catalogue-item-card");
 
-            <script>
-                for (let i = 0; i < 12; i++) {
-                    document.write(`
-                        <div class="catalogue-item-card">
-                            <div class="catalogue-item-image"></div>
-                            <p>Item</p>
-                            <p>Placeholder</p>
-                            <button class="add-to-basket">Add to Basket</button>
-                        </div>
-                    `);
-                }
+                    card.innerHTML = `
+                        <div class="catalogue-item-image"></div>
+                        <p>${product.title}</p>
+                        <p>€${product.price}</p>
+                        <button class="add-to-basket">Add to Basket</button>
+                    `;
+
+                    container.appendChild(card);
+                    const button = card.querySelector(".add-to-basket")
+
+                    card.addEventListener("click", () => {
+                        window.location.href = `/products/${product.id}`;
+                        console.log(product.id);
+                    })
+                    button.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        console.log("Added item to cart!")
+                    })
+                });
             </script>
         </div>
     </div>
+    <script th:src="@{/js/add_to_basket.js}"></script>
 </body>
 </html>

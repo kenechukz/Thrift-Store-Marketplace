@@ -12,27 +12,41 @@
         <div class="product-body">
             <div class="product-image"></div>
             <div class="product-text">
-                <h1>Item</h1>
-                <p>€0.00</p>
+                <h1 th:text="${product.title}">Item</h1>
+                <p th:text="'€' + ${product.price}">€0.00</p>
                 <hr>
                 <h2>Description</h2>
-                <p style="margin-bottom: 16px">High-waisted retro denim jeans with a relaxed fit.
-                    Features classic 5-pocket styling and authentic vintage wash. Comfortable and stylish.</p>
+                <p th:text="${product.description}" style="margin-bottom: 16px ">Template</p>
                 <hr>
                 <div class="product-metadata">
                     <div class="product-metadata-top">
                         <p>Condition</p>
                         <p>Size</p>
-                        <p>Good</p>
-                        <p>M</p>
+                        <p th:text="${condition}">Good</p>
+                        <p th:text="${product.size}">M</p>
                     </div>
                     <div class="product-metadata-bottom">
-                        <p style="color: #807b7b;">Material</p>
-                        <p>Leather</p>
+                        <p class="grey-text">Material</p>
+                        <p th:text="${product.material}">Leather</p>
                     </div>
                 </div>
                 <hr>
                 <button class="product-add-to-basket">Add to Basket</button>
+                <div class="shipping-info">
+                    <div class="info-box">
+                        <p>No returns</p>
+                        <p class="grey-text">Unless item not as expected</p>
+                    </div>
+                    <div class="info-box">
+                        <p>Fast Shipping</p>
+                        <p class="grey-text">2-3 Days</p>
+                    </div>
+                    <div class="info-box">
+                        <p>Authentic</p>
+                        <p class="grey-text">Verified</p>
+                    </div>
+
+                </div>
             </div>
 
         </div>
@@ -44,6 +58,15 @@
 
         </div>
     </div>
-
+    <h2>You May Also Like...</h2>
+    <div class="recommended-products">
+        <div th:each="rec : ${recommended_products}" class="catalogue-item-card" th:attr="data-id=${rec.id}">
+            <div class="catalogue-item-image"></div>
+            <p th:text="${rec.title}">Item</p>
+            <p th:text="'€' + ${rec.price}">€0.00</p>
+            <button class="add-to-basket">Add to Basket</button>
+        </div>
+    </div>
+    <script th:src="@{/js/add_to_basket.js}"></script>
 </body>
-</html>
+</html> 

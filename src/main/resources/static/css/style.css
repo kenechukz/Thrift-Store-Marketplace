@@ -173,7 +173,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
     
-.catalogue-items-container {
+#catalogue-items-container {
     display: grid;
     grid-template-columns: auto auto auto auto;
     justify-content: center;
@@ -472,6 +472,7 @@ body {
 .product-add-to-basket {
     padding: 12px 24px;
     margin-top: 10px;
+    margin-bottom: 100px;
     background-color: #3c3838;
     color: white;
     border: none;
@@ -483,6 +484,29 @@ body {
     transition: background-color 0.2s ease;
 }
 
+.recommended-products {
+    display: flex;
+}
+
+.shipping-info {
+    display: flex;
+    gap: 30px
+}
+
+.info-box {
+    border: #eceaea 2px solid;
+    border-radius: 5px;
+    width: 200px;
+    height: 100px;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.grey-text {
+    color: #807b7b;
+}
 
 @media (max-width: 1100px) {
 
