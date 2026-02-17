@@ -9,34 +9,12 @@
     <div class="catalogue-body">
         <h1 th:text="${message}">Placeholder</h1>
         <div id="catalogue-items-container">
-            <script th:inline="javascript">
-                const products = /*[[${products}]]*/ [];
-                const container = document.getElementById("catalogue-items-container");
-
-                products.forEach(product => {
-                    const card = document.createElement("div");
-                    card.classList.add("catalogue-item-card");
-
-                    card.innerHTML = `
-                        <div class="catalogue-item-image"></div>
-                        <p>${product.title}</p>
-                        <p>€${product.price}</p>
-                        <button class="add-to-basket">Add to Basket</button>
-                    `;
-
-                    container.appendChild(card);
-                    const button = card.querySelector(".add-to-basket")
-
-                    card.addEventListener("click", () => {
-                        window.location.href = `/products/${product.id}`;
-                        console.log(product.id);
-                    })
-                    button.addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        console.log("Added item to cart!")
-                    })
-                });
-            </script>
+            <div th:each="product : ${products}" class="catalogue-item-card" th:attr="data-id=${product.id}">
+                <div class="catalogue-item-image"><img th:src="@{'/images/' + ${product.imageUrl}}" ></div>
+                <p th:text="${product.title}">Item</p>
+                <p th:text="'€' + ${product.price}">€0.00</p>
+                <button class="add-to-basket">Add to Basket</button>
+            </div>
         </div>
     </div>
     <script th:src="@{/js/add_to_basket.js}"></script>

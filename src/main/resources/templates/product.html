@@ -10,7 +10,7 @@
     <div class="product">
 
         <div class="product-body">
-            <div class="product-image"></div>
+            <div class="product-image"><img th:src="@{'/images/' + ${product.imageUrl}}" ></div>
             <div class="product-text">
                 <h1 th:text="${product.title}">Item</h1>
                 <p th:text="'€' + ${product.price}">€0.00</p>

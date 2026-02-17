@@ -1,7 +1,7 @@
 package com.example.marketplace.controller;
 import com.example.marketplace.model.Product;
-import com.example.marketplace.model.ProductCondition;
-import com.example.marketplace.model.Size;
+// import com.example.marketplace.model.ProductCondition;
+// import com.example.marketplace.model.Size;
 import com.example.marketplace.repoository.ProductRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.math.BigDecimal;
+// import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,14 +62,14 @@ public class BrowseController {
         return "product";
     }
 
-    @GetMapping("/test")
-    public String testDatabase() {
+    // @GetMapping("/test")
+    // public String testDatabase() {
 
-        Product product = new Product("Basketball Shirt", "polyester",
-                Size.XS, ProductCondition.GOOD,  new BigDecimal("18.45"), "An NBA basketball shirt");
-        this.productRepository.save(product);
-        return "test";
-    }
+    //     Product product = new Product("Basketball Shirt", "polyester",
+    //             Size.XS, ProductCondition.GOOD,  new BigDecimal("18.45"), "An NBA basketball shirt");
+    //     this.productRepository.save(product);
+    //     return "test";
+    // }
 
 
 

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const cards = document.querySelectorAll(".catalogue-item-card[data-id]");
+    const cards = document.querySelectorAll(".catalogue-item-card[data-id], .item-card");
 
     cards.forEach(card => {
         const productId = card.getAttribute("data-id");

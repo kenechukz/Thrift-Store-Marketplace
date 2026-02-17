@@ -163,10 +163,17 @@ body {
 
 .catalogue-item-image {
     width: 100%;
-    height: 130px;
-    object-fit: cover;
+    height: 180px;
     border-radius: 4px;
-    background-color: #eceaea;
+    background-color: #ffff;
+    overflow: hidden;
+}
+
+.catalogue-item-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .catalogue-item-card:hover {
@@ -406,9 +413,16 @@ body {
 .product-image {
     width: 700px;
     height: 600px;
-    object-fit: cover;
     border-radius: 4px;
-    background-color: #eceaea;
+    background-color: #ffff;
+    overflow: hidden;
+}
+
+.product-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 
