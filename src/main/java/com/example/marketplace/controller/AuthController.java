@@ -11,16 +11,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;                                                                                                                                                                   
 import org.springframework.security.crypto.password.PasswordEncoder;  
 
+import jakarta.servlet.http.HttpSession;
+
 import com.example.marketplace.repoository.UserRepository;
 import com.example.marketplace.model.User;
+import com.example.marketplace.service.AuthService;
 
 import java.util.Optional;
 
 @Controller
 public class AuthController {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final AuthService authService;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public AuthController(UserRepository userRepository, AuthService authService) {
+        this.userRepository = userRepository;
+        this.authService = authService;
+    }
 
 
     @GetMapping("/login")
@@ -34,24 +43,21 @@ public class AuthController {
         String email = loginForm.getEmail();                                                                                                                                                                                             
         String rawPassword = loginForm.getPassword();
 
-        Optional<User> optionalUser = this.userRepository.findByEmail(email);
+        Optional<User> optionalUser = this.authService.authenticate(email, rawPassword);
 
-        if (optionalUser.isEmpty()){
+        if (optionalUser.isEmpty()) {
             model.addAttribute("error", "Invalid email or password. Try again!");
             return "login";
         }
 
+        HttpSession session = request.getSession();
+        
         User user = optionalUser.get();
-        String storedHash = user.getPassword();
 
-        if (passwordEncoder.matches(rawPassword, storedHash)){
-            return "home";
-        }
-        else{
-            model.addAttribute("error", "Invalid email or password. Try again!");
-            return "login";
-        }
-
+        session.setAttribute("userId", user.getId());
+        session.setAttribute("userEmail", user.getEmail());
+        
+        return "redirect:/home";
     }
 
     @GetMapping("/register")
@@ -78,6 +84,6 @@ public class AuthController {
 
         User newUser = new User(loginForm.getFirstName(), loginForm.getLastName(), email, passwordEncoder.encode(registeredPassword));
         userRepository.save(newUser);
-        return "login";
+        return "redirect:/login";
     }
 }
