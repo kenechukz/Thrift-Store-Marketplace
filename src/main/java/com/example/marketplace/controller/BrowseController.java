@@ -28,6 +28,7 @@ public class BrowseController {
     public String home(Model model, HttpServletRequest request) {
         model.addAttribute("message", "Hottest Items");
         model.addAttribute("path", request.getRequestURI());
+        // make a call to repository to get 3 hottest selling items
         return "home";
     }
 

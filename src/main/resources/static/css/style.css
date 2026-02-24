@@ -543,3 +543,161 @@ body {
 }
     
 }
+
+/* CSS for login page */
+
+.login-page {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #f6f6f6 0%, #ffffff 45%);
+    color: #1f1f1f;
+}
+
+.login-shell {
+    min-height: 100vh;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 32px;
+    align-items: center;
+}
+
+.login-brand h1 {
+    margin: 8px 0 12px;
+    font-size: 42px;
+    line-height: 1.05;
+}
+
+.login-eyebrow {
+    margin: 0;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #666;
+    font-weight: 700;
+}
+
+.login-subtitle {
+    margin: 0;
+    color: #666;
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 380px;
+}
+
+.login-card {
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+    padding: 24px;
+}
+
+.login-form {
+    display: grid;
+    gap: 12px;
+}
+
+.auth-form-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.auth-form-split > div {
+    display: grid;
+    gap: 12px;
+}
+
+.login-form label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font: inherit;
+    background-color: #fff;
+}
+
+.login-form input[type="email"]:focus,
+.login-form input[type="password"]:focus {
+    outline: 2px solid rgba(4, 170, 109, 0.18);
+    border-color: #04AA6D;
+}
+
+.login-form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0 8px;
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 400;
+    color: #4c4c4c;
+    cursor: pointer;
+}
+
+.checkbox-label input {
+    margin: 0;
+}
+
+.login-link {
+    color: #1f1f1f;
+    text-decoration-color: #b8b8b8;
+    text-underline-offset: 2px;
+}
+
+.login-link:hover {
+    text-decoration-color: #1f1f1f;
+}
+
+.login-submit {
+    width: 100%;
+    justify-self: stretch;
+    text-align: center;
+}
+
+.login-footer {
+    margin: 16px 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+@media (max-width: 800px) {
+    .login-shell {
+        grid-template-columns: 1fr;
+        align-items: start;
+        gap: 20px;
+        padding-top: 28px;
+    }
+
+    .login-brand h1 {
+        font-size: 34px;
+    }
+
+    .login-card {
+        padding: 18px;
+    }
+
+    .login-form-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .auth-form-split {
+        grid-template-columns: 1fr;
+    }
+}
