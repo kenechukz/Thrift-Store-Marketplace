@@ -34,6 +34,10 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("userId") != null){
+            return "redirect:/home";
+        }
 
         return "login";
     }
@@ -51,7 +55,7 @@ public class AuthController {
         }
 
         HttpSession session = request.getSession();
-        
+
         User user = optionalUser.get();
 
         session.setAttribute("userId", user.getId());

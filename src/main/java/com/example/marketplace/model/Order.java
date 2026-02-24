@@ -2,11 +2,13 @@ package com.example.marketplace.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
+@Table(name = "app_order")
 public class Order {
     private String orderNumber;
     private String orderItems;
