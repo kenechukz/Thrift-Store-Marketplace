@@ -633,6 +633,19 @@ body {
     border-color: #04AA6D;
 }
 
+#firstName,
+#lastName {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    height: 25px;
+} 
+
+#firstName:focus,
+#lastName:focus {
+    outline: 2px solid rgba(4, 170, 109, 0.18);
+    border-color: #04AA6D;
+} 
+
 .login-form-row {
     display: flex;
     justify-content: space-between;
