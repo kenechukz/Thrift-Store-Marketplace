@@ -9,40 +9,34 @@
 
     <div class="basket-body">
         <h1>Shopping Basket</h1>
+        <p th:if="${basketCount == 0}">Your basket is empty.</p>
 
         <div class="basket">
             <div class="basket-items">
-                <script>
-
-                    for(let i = 0; i < 3; i++){
-                        document.write(`
-                        <div class="basket-item">
-                            <div class="basket-item-image"></div>
-                            <div class="basket-item-body">
-                                <p>Item</p>
-                                <p>€0.00</p>
-                                <div class="quantity">
-                                    <div class="quantity-box">-</div>
-                                    <div class="quantity-box" style="width: 35px; border-radius: 0;">0</div>
-                                    <div class="quantity-box">+</div>
-                                    <p style="margin-top: 5px; margin-bottom: 0; margin-left: 350px; font-weight: 600;">€0.00</p>
-                                </div>
-                            </div>
+                <div th:each="item : ${basketItems}" class="basket-item">
+                    <div class="basket-item-image"><img th:src="@{/images/{file}(file=${item.product.imageUrl})}"></div>
+                    <div class="basket-item-body">
+                        <p th:text="${item.product.title}">Item</p>
+                        <p th:text="'€' + ${item.product.price}">€0.00</p>
+                        <div class="quantity">
+                            <div class="quantity-box">-</div>
+                            <div th:text="${item.quantity}" class="quantity-box" style="width: 35px; border-radius: 0;">0</div>
+                            <div class="quantity-box">+</div>
+                            <p th:text="'€' + ${item.subtotal}" style="margin-top: 5px; margin-bottom: 0; margin-left: 350px; font-weight: 600;">€0.00</p>
                         </div>
-                    `)
-                    }
-                </script>
+                    </div>
+                </div>
             </div>
             <div class="order-summary">
                 <p style="margin: 30px 30px 0px;">Order Summary</p>
 
                 <div class="order-summary-footer">
                     <p>Subtotal</p>
-                    <p style="color: black;">€0.00</p>
+                    <p th:text="'€' + ${subTotal}" style="color: black;">€0.00</p>
                     <p>Shipping</p>
-                    <p style="color: black;">€0.00</p>
+                    <p th:text="'€' + ${shipping}" style="color: black;">€0.00</p>
                     <p>Total</p>
-                    <p style="color: black;">€0.00</p>
+                    <p th:text="'€' + ${total}" style="color: black;">€0.00</p>
                     <button class="basket-checkout">Proceed to Checkout</button>
                 </div>
             </div>

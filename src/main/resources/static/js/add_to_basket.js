@@ -10,8 +10,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const button = card.querySelector(".add-to-basket");
         if (button) {
-            button.addEventListener("click", (e) => {
+            button.addEventListener("click",  async (e) => {
                 e.stopPropagation();
+
+
+                const response = await fetch(`/basket/${productId}`, {
+                    method: "POST",
+                    credentials: "same-origin"
+                });
+
+                if(!response.ok){
+                    console.error("Failed to add item to cart", response.status);
+                }
+
                 console.log("Added item to cart!");
             });
         }

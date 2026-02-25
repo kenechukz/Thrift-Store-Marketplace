@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,15 +66,32 @@ public class BrowseController {
         return "product";
     }
 
-    @PostMapping("/addToBasket")
-    public void addToBasket(@PathVariable Long id,Model model, HttpServletRequest request){
-
-        HttpSession session = request.getSession(false);
-
+    @PostMapping("/basket/{id}")
+    public ResponseEntity<Void> addToBasket(@PathVariable Long id,Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
         Basket basket = (Basket) session.getAttribute("basket");
-        Long userId = basket.getUserId();
+        if (basket == null) {
+            Long userId = (Long) session.getAttribute("userId");
+            basket = new Basket(userId);
+            session.setAttribute("basket", basket);
+        }
 
-        basket.items.put(userId, basket.items.getOrDefault(userId, 0) + 1);
+        if (basket.items.containsKey(id)){
+            basket.items.get(id).increment();
+            session.setAttribute("basket", basket);
+            return ResponseEntity.ok().build();
+        }
+
+        Optional<Product> optProduct = this.productRepository.findById(id);
+
+        if (optProduct.isPresent()){
+            basket.items.put(id, new Basket.BasketItem(optProduct.get(), 1));
+            session.setAttribute("basket", basket);
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.notFound().build();
+
 
     }
 
