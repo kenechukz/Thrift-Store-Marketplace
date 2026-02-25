@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Basket</title>
@@ -14,14 +14,21 @@
         <div class="basket">
             <div class="basket-items">
                 <div th:each="item : ${basketItems}" class="basket-item">
+                    <form th:action="@{/basket/remove/{id}(id=${item.product.id})}" method="post" class="basket-item-delete-form">
+                        <button type="submit" class="basket-item-delete">Delete</button>
+                    </form>
                     <div class="basket-item-image"><img th:src="@{/images/{file}(file=${item.product.imageUrl})}"></div>
                     <div class="basket-item-body">
                         <p th:text="${item.product.title}">Item</p>
                         <p th:text="'€' + ${item.product.price}">€0.00</p>
                         <div class="quantity">
-                            <div class="quantity-box">-</div>
+                            <form th:action="@{/basket/decrement/{id}(id=${item.product.id})}" method="post" style="margin: 0;">
+                                <button type="submit" class="quantity-box">-</button>
+                            </form>
                             <div th:text="${item.quantity}" class="quantity-box" style="width: 35px; border-radius: 0;">0</div>
-                            <div class="quantity-box">+</div>
+                            <form th:action="@{/basket/increment/{id}(id=${item.product.id})}" method="post" style="margin: 0;">
+                                <button type="submit" class="quantity-box">+</button>
+                            </form>
                             <p th:text="'€' + ${item.subtotal}" style="margin-top: 5px; margin-bottom: 0; margin-left: 350px; font-weight: 600;">€0.00</p>
                         </div>
                     </div>
@@ -43,10 +50,7 @@
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
 </body>
 </html>
+

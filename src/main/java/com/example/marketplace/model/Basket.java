@@ -29,6 +29,10 @@ public class Basket implements Serializable {
             this.quantity++;
         }
 
+        public void decrement() {
+            this.quantity--;
+        }
+
         public void setQuantity(int quantity) {
             this.quantity = quantity;
         }
@@ -37,26 +41,6 @@ public class Basket implements Serializable {
             return product.getPrice().multiply(BigDecimal.valueOf(quantity));                                                                                                                                       
         }
     }
-
-    /*
-                                                                                                                                                                                                                         
-  basket_item                                                                                                                                                                                                                          
-                                                                                                                                                                                                                                                                                                                                                                                                                            
-  - product_id BIGINT NOT NULL (FK -> product.id)                                                                                                                                                                                      
-  - quantity INT NOT NULL                                                                                                                                                                                                              
-                                                                                                                                                                                                                                                                                                                                                                                                                      
-  Constraints:                                                                                                                                                                                                                         
-                                                                                                                                                                                                                                                                                                                                                                                                                                         
-  - check quantity > 0                                                                                                                                                                                                                 
-  - unique (basket_id, product_id) to prevent duplicate rows for same product in same basket                                                                                                                                           
-                                                                                                                                                                                                                                       
-  Relationship summary:                                                                                                                                                                                                                
-                                                                                                                                                                                                                                       
-  - User 1 -> many Basket (or 1 -> 1 active basket)                                                                                                                                                                                    
-  - Basket 1 -> many BasketItem                                                                                                                                                                                                        
-  - BasketItem many -> 1 Product
-    
-    */
 
     private Long userId;
     public Map<Long, BasketItem> items;
@@ -70,6 +54,29 @@ public class Basket implements Serializable {
 
     public Long getUserId(){
       return this.userId;
+    }
+
+    public void removeItem(Long productId) {
+      items.remove(productId);
+    }
+
+    public void incrementItem(Long productId) {
+      BasketItem item = items.get(productId);
+      if (item != null) {
+        item.increment();
+      }
+    }
+
+    public void decrementItem(Long productId) {
+      BasketItem item = items.get(productId);
+      if (item == null) {
+        return;
+      }
+      if (item.getQuantity() <= 1) {
+        items.remove(productId);
+        return;
+      }
+      item.decrement();
     }
 
     public BigDecimal getSubtotal() {

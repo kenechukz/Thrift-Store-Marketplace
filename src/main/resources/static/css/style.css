@@ -204,6 +204,7 @@ body {
     padding: 14px;
     display: flex;
     gap: 20px;
+    position: relative;
 }
 
 .basket {
@@ -280,6 +281,22 @@ body {
 .basket-item-body {
     display: grid;
     grid-template-columns: auto;
+}
+
+.basket-item-delete-form {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    margin: 0;
+}
+
+.basket-item-delete {
+    border: 1px solid #d0d0d0;
+    background: #fff;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
 }
 
 .quantity {
