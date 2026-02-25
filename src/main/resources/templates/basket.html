@@ -34,10 +34,12 @@
                     <p>Subtotal</p>
                     <p th:text="'€' + ${subTotal}" style="color: black;">€0.00</p>
                     <p>Shipping</p>
-                    <p th:text="'€' + ${shipping}" style="color: black;">€0.00</p>
+                    <p th:if="${basketCount == 0}" style="color: black;"></p>
+                    <p th:if="${basketCount != 0}" th:text="'€' + ${shipping}" style="color: black;">€0.00</p>
                     <p>Total</p>
-                    <p th:text="'€' + ${total}" style="color: black;">€0.00</p>
-                    <button class="basket-checkout">Proceed to Checkout</button>
+                    <p th:if="${basketCount == 0}" style="color: black;">€0.00</p>
+                    <p th:if="${basketCount != 0}" th:text="'€' + ${total}" style="color: black;">€0.00</p>
+                    <button th:if="${basketCount != 0}" class="basket-checkout">Proceed to Checkout</button>
                 </div>
             </div>
         </div>
