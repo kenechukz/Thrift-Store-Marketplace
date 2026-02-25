@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.servlet.http.HttpSession;
 
 import com.example.marketplace.repoository.UserRepository;
+import com.example.marketplace.model.Basket;
 import com.example.marketplace.model.User;
 import com.example.marketplace.service.AuthService;
 
@@ -58,8 +59,11 @@ public class AuthController {
 
         User user = optionalUser.get();
 
+        
+
         session.setAttribute("userId", user.getId());
         session.setAttribute("userEmail", user.getEmail());
+        session.setAttribute("basket", new Basket(user.getId()));
         
         return "redirect:/home";
     }
@@ -88,6 +92,16 @@ public class AuthController {
 
         User newUser = new User(loginForm.getFirstName(), loginForm.getLastName(), email, passwordEncoder.encode(registeredPassword));
         userRepository.save(newUser);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("userId") != null){
+            session.invalidate();
+        }
+
         return "redirect:/login";
     }
 }

@@ -1,13 +1,15 @@
 package com.example.marketplace.controller;
 import com.example.marketplace.model.Product;
-// import com.example.marketplace.model.ProductCondition;
-// import com.example.marketplace.model.Size;
+import com.example.marketplace.model.Basket;
 import com.example.marketplace.repoository.ProductRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 // import java.math.BigDecimal;
 import java.util.List;
@@ -63,14 +65,17 @@ public class BrowseController {
         return "product";
     }
 
-    // @GetMapping("/test")
-    // public String testDatabase() {
+    @PostMapping("/addToBasket")
+    public void addToBasket(@PathVariable Long id,Model model, HttpServletRequest request){
 
-    //     Product product = new Product("Basketball Shirt", "polyester",
-    //             Size.XS, ProductCondition.GOOD,  new BigDecimal("18.45"), "An NBA basketball shirt");
-    //     this.productRepository.save(product);
-    //     return "test";
-    // }
+        HttpSession session = request.getSession(false);
+
+        Basket basket = (Basket) session.getAttribute("basket");
+        Long userId = basket.getUserId();
+
+        basket.items.put(userId, basket.items.getOrDefault(userId, 0) + 1);
+
+    }
 
 
 
