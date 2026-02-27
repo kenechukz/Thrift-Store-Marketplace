@@ -19,10 +19,6 @@ body {
     gap: 20px;
 }
 
-.topnav img {
-    visibility: hidden;
-    height: 10px;
-}
 
 /* Style the links inside the navigation bar */
 .topnav a {
@@ -634,12 +630,6 @@ body {
     .topnav .logout-button {
         visibility: hidden;
     }
-
-    .topnav img {
-    visibility: visible;
-    height: 50px;
-    order: -1;
-}
     
 }
 

@@ -7,7 +7,6 @@
 <body>
     <div th:fragment="navbar" class="topnav">
         <div class="topnav-main">
-            <img th:src="@{/images/image.png}" alt="Logo">
             <a th:classappend="${path == '/home' or path == '/'} ? ' active' : ''" href="/home">Home</a>
             <a th:classappend="${path == '/catalogue'} ? ' active' : ''" href="/catalogue">Catalogue</a>
             <a th:if="${isUser}" th:classappend="${path == '/basket'} ? ' active' : ''" href="/basket" class="basket-nav-link">

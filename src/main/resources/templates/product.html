@@ -62,7 +62,7 @@
     <h2>You May Also Like...</h2>
     <div class="recommended-products">
         <div th:each="rec : ${recommended_products}" class="catalogue-item-card" th:attr="data-id=${rec.id}">
-            <div class="catalogue-item-image"></div>
+            <div class="catalogue-item-image"><img th:src="@{/images/{imageUrl}(imageUrl=${rec.imageUrl})}"></div>
             <p th:text="${rec.title}">Item</p>
             <p th:text="'€' + ${rec.price}">€0.00</p>
             <button th:if="${isUser}" class="add-to-basket">Add to Basket</button>
