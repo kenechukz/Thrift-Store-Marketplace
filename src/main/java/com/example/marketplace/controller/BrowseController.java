@@ -1,10 +1,12 @@
 package com.example.marketplace.controller;
 import com.example.marketplace.model.Product;
 import com.example.marketplace.model.Basket;
+import com.example.marketplace.repoository.OrderItemRepository;
 import com.example.marketplace.repoository.ProductRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 // import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -21,17 +24,27 @@ public class BrowseController {
 
 
     private final ProductRepository productRepository;
+    private final OrderItemRepository orderItemRepository;
 
-    public BrowseController(ProductRepository productRepository){
+    public BrowseController(ProductRepository productRepository, OrderItemRepository orderItemRepository){
         this.productRepository = productRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
 
     @GetMapping({"/", "/home"})
     public String home(Model model, HttpServletRequest request) {
+        List<Product> hottestProducts = this.orderItemRepository.findTopSellingProducts(PageRequest.of(0, 3));
+        if (hottestProducts.isEmpty()) {
+            hottestProducts = this.productRepository.findAll()
+                    .stream()
+                    .limit(3)
+                    .toList();
+        }
+
         model.addAttribute("message", "Hottest Items");
+        model.addAttribute("products", hottestProducts);
         model.addAttribute("path", request.getRequestURI());
-        // make a call to repository to get 3 hottest selling items
         return "home";
     }
 
@@ -67,7 +80,7 @@ public class BrowseController {
     }
 
     @PostMapping("/basket/{id}")
-    public ResponseEntity<Void> addToBasket(@PathVariable Long id,Model model, HttpServletRequest request){
+    public ResponseEntity<Map<String, Object>> addToBasket(@PathVariable Long id,Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         Basket basket = (Basket) session.getAttribute("basket");
         if (basket == null) {
@@ -79,7 +92,7 @@ public class BrowseController {
         if (basket.items.containsKey(id)){
             basket.items.get(id).increment();
             session.setAttribute("basket", basket);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(Map.of("basketCount", basket.getTotalQuantity()));
         }
 
         Optional<Product> optProduct = this.productRepository.findById(id);
@@ -87,7 +100,7 @@ public class BrowseController {
         if (optProduct.isPresent()){
             basket.items.put(id, new Basket.BasketItem(optProduct.get(), 1));
             session.setAttribute("basket", basket);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(Map.of("basketCount", basket.getTotalQuantity()));
         }
 
         return ResponseEntity.notFound().build();

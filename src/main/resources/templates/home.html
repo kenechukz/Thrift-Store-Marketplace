@@ -10,18 +10,14 @@
     <div class="home-body">
         <h1 th:text="${message}">Placeholder</h1>
         <div class="items-container">
-            <script>
-                for (let i = 1; i <= 3; i++){
-                    document.write(`
-                        <div class="item-card">
-                            <div class="item-image">Image</div>
-                            <p class="item-name">Item ${i}</p>
-                            <p class="item-price">€0.00</p>
-                            <button class="add-to-basket">Add to Basket</button>
-                        </div>
-                    `)
-                }
-            </script>
+            <div th:each="product : ${products}" class="item-card" th:attr="data-id=${product.id}">
+                <div class="item-image">
+                    <img th:src="@{'/images/' + ${product.imageUrl}}" alt="Product image">
+                </div>
+                <p class="item-name" th:text="${product.title}">Item</p>
+                <p class="item-price" th:text="'€' + ${product.price}">€0.00</p>
+                <button class="add-to-basket">Add to Basket</button>
+            </div>
         </div>
     </div>
     <script th:src="@{/js/add_to_basket.js}"></script>
