@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Orders</title>
@@ -11,74 +11,36 @@
         <h1>Order History</h1>
 
         <div class="orders-list">
-            <script>
-                const orders = [
-                    {
-                        id: "0000",
-                        status: "Delivered",
-                        date: "1/1/2026",
-                        total: "€10.00",
-                        items: [
-                            { name: "Item 1", qty: 1, price: "€5.00" },
-                            { name: "Item 2", qty: 2, price: "€2.50" }
-                        ]
-                    },
-                    {
-                        id: "0001",
-                        status: "Delivered",
-                        date: "1/1/2026",
-                        total: "€10.00",
-                        items: [
-                            { name: "Item 1", qty: 1, price: "€5.00" },
-                            { name: "Item 2", qty: 2, price: "€2.50" }
-                        ]
-                    },
-                    {
-                        id: "0002",
-                        status: "Delivered",
-                        date: "1/1/2026",
-                        total: "€10.00",
-                        items: [
-                            { name: "Item 1", qty: 1, price: "€5.00" },
-                            { name: "Item 2", qty: 2, price: "€2.50" }
-                        ]
-                    }
-                ];
+            <p th:if="${#lists.isEmpty(orders)}">No orders yet.</p>
 
-                for (const order of orders) {
-                    let itemsHtml = '';
-                    for (const item of order.items) {
-                        itemsHtml += `
-                            <div class="order-item">
-                                <div class="order-item-image"></div>
-                                <div class="order-item-details">
-                                    <p class="order-item-name">${item.name}</p>
-                                    <p class="order-item-qty">Qty: ${item.qty}</p>
-                                </div>
-                                <p class="order-item-price">${item.price}</p>
-                            </div>
-                        `;
-                    }
+            <div th:each="order : ${orders}" class="order-card">
+                <div class="order-header">
+                    <div class="order-header-top">
+                        <span class="order-id" th:text="'Order #' + ${order.orderNumber}">Order #0000</span>
+                        <span class="order-status" th:text="${order.orderStatus}">PAID</span>
+                    </div>
+                    <div class="order-header-meta">
+                        <span class="order-date" th:text="'Date: ' + ${#temporals.format(order.date, 'dd/MM/yyyy HH:mm')}">Date: 01/01/2026 12:00</span>
+                        <span class="order-total" th:text="'Total: €' + ${#numbers.formatDecimal(order.total, 1, 2)}">Total: €0.00</span>
+                    </div>
+                </div>
 
-                    document.write(`
-                        <div class="order-card">
-                            <div class="order-header">
-                                <div class="order-header-top">
-                                    <span class="order-id">Order #${order.id}</span>
-                                    <span class="order-status">${order.status}</span>
-                                </div>
-                                <div class="order-header-meta">
-                                    <span class="order-date">&#128197; ${order.date}</span>
-                                    <span class="order-total">&#9675; ${order.total}</span>
-                                </div>
+                <div class="order-items">
+                    <div th:each="item, itemStat : ${order.orderItems}">
+                        <div class="order-item">
+                            <div class="order-item-image">
+                                <img th:src="@{/images/{file}(file=${item.product.imageUrl})}" th:alt="${item.product.title}">
                             </div>
-                            <div class="order-items">
-                                ${itemsHtml}
+                            <div class="order-item-details">
+                                <p class="order-item-name" th:text="${item.product.title}">Item</p>
+                                <p class="order-item-qty" th:text="'Qty: ' + ${item.quantity}">Qty: 1</p>
                             </div>
+                            <p class="order-item-price" th:text="'€' + ${#numbers.formatDecimal(item.unitPrice * item.quantity, 1, 2)}">€0.00</p>
                         </div>
-                    `);
-                }
-            </script>
+                        <hr class="order-item-divider" th:if="${!itemStat.last}">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
