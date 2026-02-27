@@ -17,8 +17,6 @@
             </a>
             <a th:if="${isUser}" th:classappend="${path == '/orders'} ? ' active' : ''" href="/orders">Orders</a>
             <a th:if="${isAdmin}" th:classappend="${path == '/admin' or path == '/admin/products' or path == '/admin/orders'} ? ' active' : ''" href="/admin">Admin</a>
-            <a th:if="${isAdmin}" th:classappend="${path == '/admin/products'} ? ' active' : ''" href="/admin/products">Products</a>
-            <a th:if="${isAdmin}" th:classappend="${path == '/admin/orders'} ? ' active' : ''" href="/admin/orders">Order Review</a>
         </div>
         <form action="/logout" method="post" class="logout-form">
             <button type="submit" class="logout-button">Logout</button>
