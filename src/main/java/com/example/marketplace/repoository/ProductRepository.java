@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
@@ -17,4 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT * FROM PRODUCT WHERE (visible = true OR visible IS NULL) ORDER BY RAND() LIMIT :limit", nativeQuery = true)
     List<Product> findVisibleRandom(@Param("limit") int limit);
+
+    Optional<Product> findByImageUrl(String imageUrl);
 }
