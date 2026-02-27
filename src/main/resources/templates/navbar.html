@@ -6,11 +6,18 @@
 </head>
 <body>
     <div th:fragment="navbar" class="topnav">
-        <img th:src="@{/images/image.png}" alt="Logo">
-        <a th:classappend="${path == '/home' or path == '/'} ? ' active' : ''" href="/home">Home</a>
-        <a th:classappend="${path == '/catalogue'} ? ' active' : ''" href="/catalogue">Catalogue</a>
-        <a th:classappend="${path == '/basket'} ? ' active' : ''" href="/basket">Basket</a>
-        <a th:classappend="${path == '/orders'} ? ' active' : ''" href="/orders">Orders</a>
+        <div class="topnav-main">
+            <img th:src="@{/images/image.png}" alt="Logo">
+            <a th:classappend="${path == '/home' or path == '/'} ? ' active' : ''" href="/home">Home</a>
+            <a th:classappend="${path == '/catalogue'} ? ' active' : ''" href="/catalogue">Catalogue</a>
+            <a th:classappend="${path == '/basket'} ? ' active' : ''" href="/basket" class="basket-nav-link">
+                Basket
+                <span id="basket-nav-count" class="basket-nav-count"
+                      th:classappend="${basketNavCount == 0} ? ' hidden' : ''"
+                      th:text="${basketNavCount}">0</span>
+            </a>
+            <a th:classappend="${path == '/orders'} ? ' active' : ''" href="/orders">Orders</a>
+        </div>
         <form action="/logout" method="post" class="logout-form">
             <button type="submit" class="logout-button">Logout</button>
         </form>

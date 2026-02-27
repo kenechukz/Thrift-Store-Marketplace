@@ -106,6 +106,8 @@ function updateBasketView(payload) {
     if (checkoutBtn) {
         checkoutBtn.style.display = payload.basketCount === 0 ? "none" : "";
     }
+
+    updateNavBasketBadge(payload.basketCount);
 }
 
 function showCheckoutMessage(message, isError) {
@@ -122,4 +124,14 @@ function showCheckoutMessage(message, isError) {
     statusEl.textContent = message;
     statusEl.style.color = isError ? "#b42318" : "#027a48";
     statusEl.style.fontWeight = "600";
+}
+
+function updateNavBasketBadge(count) {
+    const badge = document.getElementById("basket-nav-count");
+    if (!badge) {
+        return;
+    }
+
+    badge.textContent = String(count);
+    badge.classList.toggle("hidden", count <= 0);
 }

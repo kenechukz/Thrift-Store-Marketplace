@@ -69,7 +69,7 @@ public class CheckoutController {
         BigDecimal shipping;
         BigDecimal total;
         Basket.BasketItem item = basket != null ? basket.items.get(productId) : null;
-        int basketCount = basket != null ? basket.items.size() : 0;
+        int basketCount = basket != null ? basket.getTotalQuantity() : 0;
         if (basket != null){
             subTotal = basketCount > 0 ? basket.getSubtotal() : ZERO_MONEY;
             shipping = basketCount > 0 ? basket.getShipping() : ZERO_MONEY;
@@ -128,7 +128,7 @@ public class CheckoutController {
                 basket != null ? new ArrayList<>(basket.items.values()) : List.of();
         model.addAttribute("path", request.getRequestURI());
         model.addAttribute("basketItems", basketItems);
-        model.addAttribute("basketCount", basketItems.size());
+        model.addAttribute("basketCount", basket != null ? basket.getTotalQuantity() : 0);
         model.addAttribute("subTotal", basket != null ? basket.getSubtotal() : java.math.BigDecimal.ZERO);
         model.addAttribute("shipping", basket != null ? basket.getShipping() : java.math.BigDecimal.ZERO);
         model.addAttribute("total", basket != null ? basket.getTotal() : java.math.BigDecimal.ZERO);

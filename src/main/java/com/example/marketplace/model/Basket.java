@@ -95,6 +95,14 @@ public class Basket implements Serializable {
       return getSubtotal().add(getShipping());
     }
 
+    public int getTotalQuantity() {
+      int totalQuantity = 0;
+      for (BasketItem item : items.values()) {
+        totalQuantity += item.getQuantity();
+      }
+      return totalQuantity;
+    }
+
 
     
 }
