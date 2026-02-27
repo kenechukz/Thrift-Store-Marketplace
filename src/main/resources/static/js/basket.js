@@ -1,8 +1,6 @@
-﻿document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
     const actionForms = document.querySelectorAll("form[data-basket-action-form]");
-    if (actionForms.length === 0) {
-        return;
-    }
+    const checkoutBtn = document.getElementById("basket-checkout-btn");
 
     actionForms.forEach((form) => {
         form.addEventListener("submit", async (event) => {
@@ -33,6 +31,35 @@
                 form.submit();
             }
         });
+    });
+
+    if (!checkoutBtn) {
+        return;
+    }
+
+    checkoutBtn.addEventListener("click", async () => {
+        checkoutBtn.disabled = true;
+
+        try {
+            const response = await fetch("/checkout", {
+                method: "POST",
+                credentials: "same-origin"
+            });
+            const payload = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(payload.error || `Checkout failed (${response.status})`);
+            }
+
+            showCheckoutMessage(`Order placed: ${payload.orderNumber || "success"}`);
+            setTimeout(() => {
+                window.location.href = "/basket";
+            }, 1000);
+        } catch (error) {
+            console.error(error);
+            showCheckoutMessage(error.message || "Checkout failed. Please try again.", true);
+            checkoutBtn.disabled = false;
+        }
     });
 });
 
@@ -81,12 +108,18 @@ function updateBasketView(payload) {
     }
 }
 
-const checkoutBtn = document.getElementById("basket-checkout-btn");
-checkoutBtn.addEventListener("click", async () => {
-    
-    const request = await fetch("/checkout", {
-        method: "POST",
-        credentials: "same-origin",
-    });
+function showCheckoutMessage(message, isError) {
+    let statusEl = document.getElementById("checkout-status-message");
+    if (!statusEl) {
+        statusEl = document.createElement("p");
+        statusEl.id = "checkout-status-message";
+        const basketBody = document.querySelector(".basket-body");
+        if (basketBody) {
+            basketBody.appendChild(statusEl);
+        }
+    }
 
-})
+    statusEl.textContent = message;
+    statusEl.style.color = isError ? "#b42318" : "#027a48";
+    statusEl.style.fontWeight = "600";
+}
