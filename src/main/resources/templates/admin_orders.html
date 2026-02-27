@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Orders</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="orders-body">
+    <h1>Review Orders</h1>
+
+    <div class="orders-list">
+        <p th:if="${#lists.isEmpty(orders)}">No orders yet.</p>
+
+        <div th:each="order : ${orders}" class="order-card">
+            <div class="order-header">
+                <div class="order-header-top">
+                    <span class="order-id" th:text="'Order #' + ${order.orderNumber}">Order #0000</span>
+                    <span class="order-status" th:text="${order.orderStatus}">PAID</span>
+                </div>
+                <div class="order-header-meta">
+                    <span class="order-date" th:text="'Date: ' + ${#temporals.format(order.date, 'dd/MM/yyyy HH:mm')}"></span>
+                    <span class="order-total" th:text="'Total: €' + ${#numbers.formatDecimal(order.total, 1, 2)}"></span>
+                </div>
+            </div>
+
+            <form th:action="@{/admin/orders/{id}/status(id=${order.id})}" method="post" class="login-form" style="margin-bottom: 12px; max-width: 320px;">
+                <label>Update Status</label>
+                <select name="orderStatus" required>
+                    <option th:each="status : ${statuses}" th:value="${status}" th:text="${status}" th:selected="${status == order.orderStatus}"></option>
+                </select>
+                <button type="submit" class="add-to-basket">Update Status</button>
+            </form>
+
+            <div class="order-items">
+                <div th:each="item, itemStat : ${order.orderItems}">
+                    <div class="order-item">
+                        <div class="order-item-image">
+                            <img th:src="@{/images/{file}(file=${item.product.imageUrl})}" th:alt="${item.product.title}">
+                        </div>
+                        <div class="order-item-details">
+                            <p class="order-item-name" th:text="${item.product.title}">Item</p>
+                            <p class="order-item-qty" th:text="'Qty: ' + ${item.quantity}">Qty: 1</p>
+                        </div>
+                        <p class="order-item-price" th:text="'€' + ${#numbers.formatDecimal((item.unitPriceAtPurchase != null ? item.unitPriceAtPurchase : item.unitPrice) * item.quantity, 1, 2)}">�0.00</p>
+                    </div>
+                    <hr class="order-item-divider" th:if="${!itemStat.last}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

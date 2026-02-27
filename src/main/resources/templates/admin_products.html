@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Products</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="catalogue-body">
+    <h1>Manage Products</h1>
+
+    <div class="order-card" style="margin-bottom: 24px;">
+        <h3>Add Product</h3>
+        <form action="/admin/products" method="post" class="login-form">
+            <label for="title">Title</label>
+            <input id="title" name="title" type="text" required>
+
+            <label for="material">Material</label>
+            <input id="material" name="material" type="text" required>
+
+            <label for="size">Size</label>
+            <select id="size" name="size" required>
+                <option th:each="size : ${sizes}" th:value="${size}" th:text="${size}"></option>
+            </select>
+
+            <label for="condition">Condition</label>
+            <select id="condition" name="condition" required>
+                <option th:each="condition : ${conditions}" th:value="${condition}" th:text="${condition.label}"></option>
+            </select>
+
+            <label for="price">Price</label>
+            <input id="price" name="price" type="number" step="0.01" min="0" required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="3" required></textarea>
+
+            <label for="imageUrl">Image file name</label>
+            <input id="imageUrl" name="imageUrl" type="text" placeholder="example.jpg" required>
+
+            <button type="submit" class="add-to-basket">Add Product</button>
+        </form>
+    </div>
+
+    <div class="orders-list">
+        <div th:each="product : ${products}" class="order-card">
+            <h3 th:text="${product.title}">Product</h3>
+            <p th:text="'Visible: ' + (${product.visible} ? 'Yes' : 'No')">Visible: Yes</p>
+
+            <form th:action="@{/admin/products/{id}(id=${product.id})}" method="post" class="login-form" style="margin-bottom: 12px;">
+                <input name="title" th:value="${product.title}" required>
+                <input name="material" th:value="${product.material}" required>
+                <select name="size" required>
+                    <option th:each="size : ${sizes}" th:value="${size}" th:text="${size}" th:selected="${size == product.size}"></option>
+                </select>
+                <select name="condition" required>
+                    <option th:each="condition : ${conditions}" th:value="${condition}" th:text="${condition.label}" th:selected="${condition == product.condition}"></option>
+                </select>
+                <input name="price" type="number" step="0.01" min="0" th:value="${product.price}" required>
+                <textarea name="description" rows="2" th:text="${product.description}" required></textarea>
+                <input name="imageUrl" th:value="${product.imageUrl}" required>
+                <button type="submit" class="add-to-basket">Save Changes</button>
+            </form>
+
+            <form th:action="@{/admin/products/{id}/visibility(id=${product.id})}" method="post">
+                <input type="hidden" name="visible" th:value="${!product.visible}">
+                <button type="submit" class="add-to-basket" th:text="${product.visible} ? 'Hide Product' : 'Unhide Product'"></button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

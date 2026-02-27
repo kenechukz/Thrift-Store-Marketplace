@@ -14,18 +14,21 @@
             <p class="login-subtitle">Set up your account to start buying and tracking orders.</p>
         </div>
 
-        <div class="auth-panel">
+        <form id="registerForm" class="auth-panel" method="post">
             <fieldset class="account-type-picker">
                 <div class="account-type-options">
-                    <input id="registerUserType" type="radio" name="accountType" value="USER" form="registerForm" checked>
+                    <input id="registerUserType" type="radio" name="roleTypeChoice" value="USER" data-role-choice checked>
                     <label for="registerUserType">User</label>
-                    <input id="registerAdminType" type="radio" name="accountType" value="ADMIN" form="registerForm">
+                    <input id="registerAdminType" type="radio" name="roleTypeChoice" value="ADMIN" data-role-choice>
                     <label for="registerAdminType">Admin</label>
                 </div>
             </fieldset>
+            <input type="hidden" name="roleType" value="USER" data-role-target>
 
             <div class="login-card">
-                <form id="registerForm" class="login-form" method="post">
+                <div class="login-form">
+                    <p th:if="${error}" class="auth-error" th:text="${error}">Registration failed</p>
+
                     <div class="auth-form-split">
                         <div>
                             <label for="firstName">First name</label>
@@ -52,14 +55,15 @@
                     </label>
 
                     <button type="submit" class="add-to-basket login-submit">Create account</button>
-                </form>
+                </div>
 
                 <p class="login-footer">
                     Already have an account?
                     <a th:href="@{/login}" class="login-link">Sign in</a>
                 </p>
             </div>
-        </div>
+        </form>
     </div>
+    <script th:src="@{/js/auth_role.js}"></script>
 </body>
 </html>

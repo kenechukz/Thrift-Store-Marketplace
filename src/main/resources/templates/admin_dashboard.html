@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="catalogue-body">
+    <h1>Admin Dashboard</h1>
+    <div class="orders-list">
+        <div class="order-card">
+            <h3>Product Management</h3>
+            <p>Create, modify, and hide/unhide products.</p>
+            <a class="add-to-basket" href="/admin/products">Manage Products</a>
+        </div>
+        <div class="order-card">
+            <h3>Order Review</h3>
+            <p>Review all user orders and update statuses.</p>
+            <a class="add-to-basket" href="/admin/orders">Manage Orders</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

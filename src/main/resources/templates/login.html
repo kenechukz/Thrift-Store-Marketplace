@@ -14,18 +14,21 @@
             <p class="login-subtitle">Sign in to view your orders, basket, and saved items.</p>
         </div>
 
-        <div class="auth-panel">
+        <form id="loginForm" action="/login" class="auth-panel" method="post">
             <fieldset class="account-type-picker">
                 <div class="account-type-options">
-                    <input id="loginUserType" type="radio" name="accountType" value="USER" form="loginForm" checked>
+                    <input id="loginUserType" type="radio" name="roleTypeChoice" value="USER" data-role-choice checked>
                     <label for="loginUserType">User</label>
-                    <input id="loginAdminType" type="radio" name="accountType" value="ADMIN" form="loginForm">
+                    <input id="loginAdminType" type="radio" name="roleTypeChoice" value="ADMIN" data-role-choice>
                     <label for="loginAdminType">Admin</label>
                 </div>
             </fieldset>
+            <input type="hidden" name="roleType" value="USER" data-role-target>
 
             <div class="login-card">
-                <form id="loginForm" action="/login" class="login-form" method="post">
+                <div class="login-form">
+                    <p th:if="${error}" class="auth-error" th:text="${error}">Authentication failed</p>
+
                     <label for="email">Email</label>
                     <input id="email" name="email" type="email" placeholder="you@example.com" required>
 
@@ -41,14 +44,15 @@
                     </div>
 
                     <button type="submit" class="add-to-basket login-submit">Sign in</button>
-                </form>
+                </div>
 
                 <p class="login-footer">
                     New here?
                     <a th:href="@{/register}" class="login-link">Create an account</a>
                 </p>
             </div>
-        </div>
+        </form>
     </div>
+    <script th:src="@{/js/auth_role.js}"></script>
 </body>
 </html>
