@@ -694,6 +694,11 @@ body {
     padding: 24px;
 }
 
+.auth-panel {
+    display: grid;
+    gap: 10px;
+}
+
 .login-form {
     display: grid;
     gap: 12px;
@@ -708,6 +713,52 @@ body {
 .auth-form-split > div {
     display: grid;
     gap: 12px;
+}
+
+.account-type-picker {
+    margin: 2px 0 6px;
+    padding: 0;
+    border: 0;
+}
+
+.account-type-picker legend {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.account-type-options {
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.account-type-options input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.account-type-options label {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    background: #fff;
+    color: #4c4c4c;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.account-type-options label + input[type="radio"] + label {
+    border-left: 1px solid #ccc;
+}
+
+.account-type-options input[type="radio"]:checked + label {
+    background: #04AA6D;
+    color: #fff;
 }
 
 .login-form label {

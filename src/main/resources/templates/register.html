@@ -14,40 +14,51 @@
             <p class="login-subtitle">Set up your account to start buying and tracking orders.</p>
         </div>
 
-        <div class="login-card">
-            <form class="login-form" method="post">
-                <div class="auth-form-split">
-                    <div>
-                        <label for="firstName">First name</label>
-                        <input id="firstName" name="firstName" type="text" placeholder="John" required>
-                    </div>
-                    <div>
-                        <label for="lastName">Last name</label>
-                        <input id="lastName" name="lastName" type="text" placeholder="Doe" required>
-                    </div>
+        <div class="auth-panel">
+            <fieldset class="account-type-picker">
+                <div class="account-type-options">
+                    <input id="registerUserType" type="radio" name="accountType" value="USER" form="registerForm" checked>
+                    <label for="registerUserType">User</label>
+                    <input id="registerAdminType" type="radio" name="accountType" value="ADMIN" form="registerForm">
+                    <label for="registerAdminType">Admin</label>
                 </div>
+            </fieldset>
 
-                <label for="registerEmail">Email</label>
-                <input id="registerEmail" name="email" type="email" placeholder="you@example.com" required>
+            <div class="login-card">
+                <form id="registerForm" class="login-form" method="post">
+                    <div class="auth-form-split">
+                        <div>
+                            <label for="firstName">First name</label>
+                            <input id="firstName" name="firstName" type="text" placeholder="John" required>
+                        </div>
+                        <div>
+                            <label for="lastName">Last name</label>
+                            <input id="lastName" name="lastName" type="text" placeholder="Doe" required>
+                        </div>
+                    </div>
 
-                <label for="registerPassword">Password</label>
-                <input id="registerPassword" name="password" type="password" placeholder="Create a password" required>
+                    <label for="registerEmail">Email</label>
+                    <input id="registerEmail" name="email" type="email" placeholder="you@example.com" required>
 
-                <label for="confirmPassword">Confirm password</label>
-                <input id="confirmPassword" name="confirmedPassword" type="password" placeholder="Repeat your password" required>
+                    <label for="registerPassword">Password</label>
+                    <input id="registerPassword" name="password" type="password" placeholder="Create a password" required>
 
-                <label class="checkbox-label" for="termsAccepted">
-                    <input id="termsAccepted" name="termsAccepted" type="checkbox" required>
-                    <span>I agree to the terms and privacy policy</span>
-                </label>
+                    <label for="confirmPassword">Confirm password</label>
+                    <input id="confirmPassword" name="confirmedPassword" type="password" placeholder="Repeat your password" required>
 
-                <button type="submit" class="add-to-basket login-submit">Create account</button>
-            </form>
+                    <label class="checkbox-label" for="termsAccepted">
+                        <input id="termsAccepted" name="termsAccepted" type="checkbox" required>
+                        <span>I agree to the terms and privacy policy</span>
+                    </label>
 
-            <p class="login-footer">
-                Already have an account?
-                <a th:href="@{/login}" class="login-link">Sign in</a>
-            </p>
+                    <button type="submit" class="add-to-basket login-submit">Create account</button>
+                </form>
+
+                <p class="login-footer">
+                    Already have an account?
+                    <a th:href="@{/login}" class="login-link">Sign in</a>
+                </p>
+            </div>
         </div>
     </div>
 </body>
