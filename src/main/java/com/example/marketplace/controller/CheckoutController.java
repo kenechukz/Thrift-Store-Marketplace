@@ -94,6 +94,11 @@ public class CheckoutController {
         return payload;
     }
 
+    private String nextOrderNumber() {
+        long next = orderRepository.count() + 1;
+        return String.format("%04d", next);
+    }
+
     private Map<String, Object> createOrderPayload(Order order){
         List<Map<String, Object>> items = order.getOrderItems().stream()
                 .map(item -> {
@@ -212,6 +217,7 @@ public class CheckoutController {
         try {
             User user = userOptional.get();
             Order order = new Order(user, LocalDateTime.now(), basket.getTotal(), OrderStatus.PAID);
+            order.setOrderNumber(nextOrderNumber());
             Set<Long> productIds = new HashSet<>(basket.items.keySet());
             List<Product> products = productRepository.findAllById(productIds);
             Map<Long, Product> productById = products.stream()
