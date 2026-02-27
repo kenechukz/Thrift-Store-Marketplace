@@ -16,7 +16,7 @@
                       th:text="${basketNavCount}">0</span>
             </a>
             <a th:if="${isUser}" th:classappend="${path == '/orders'} ? ' active' : ''" href="/orders">Orders</a>
-            <a th:if="${isAdmin}" th:classappend="${path == '/admin' or path == '/admin/products' or path == '/admin/orders'} ? ' active' : ''" href="/admin">Admin</a>
+            <a th:if="${isAdmin}" th:classappend="${path == '/admin' or path == '/admin/products' or path == '/admin/orders' or #strings.startsWith(path, '/admin/product/')} ? ' active' : ''" href="/admin">Admin</a>
         </div>
         <form action="/logout" method="post" class="logout-form">
             <button type="submit" class="logout-button">Logout</button>

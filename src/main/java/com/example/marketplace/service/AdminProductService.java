@@ -20,6 +20,10 @@ public class AdminProductService {
         return productRepository.findAll();
     }
 
+    public Optional<Product> findProductById(Long id) {
+        return productRepository.findById(id);
+    }
+
     public Product createProduct(Product product) {
         product.setVisible(true);
         return productRepository.save(product);

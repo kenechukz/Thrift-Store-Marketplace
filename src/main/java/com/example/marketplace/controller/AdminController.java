@@ -45,6 +45,20 @@ public class AdminController {
         return "admin_products";
     }
 
+    @GetMapping("/admin/product/{id}")
+    public String adminProduct(@PathVariable Long id, Model model, HttpServletRequest request) {
+        Product product = adminProductService.findProductById(id).orElse(null);
+        if (product == null) {
+            return "redirect:/admin/products";
+        }
+
+        model.addAttribute("product", product);
+        model.addAttribute("sizes", Size.values());
+        model.addAttribute("conditions", ProductCondition.values());
+        model.addAttribute("path", request.getRequestURI());
+        return "admin_product";
+    }
+
     @PostMapping("/admin/products")
     public String createProduct(Product product) {
         adminProductService.createProduct(product);
@@ -54,13 +68,13 @@ public class AdminController {
     @PostMapping("/admin/products/{id}")
     public String updateProduct(@PathVariable Long id, Product product) {
         adminProductService.updateProduct(id, product);
-        return "redirect:/admin/products";
+        return "redirect:/admin/product/" + id;
     }
 
     @PostMapping("/admin/products/{id}/visibility")
     public String updateVisibility(@PathVariable Long id, @RequestParam("visible") boolean visible) {
         adminProductService.updateVisibility(id, visible);
-        return "redirect:/admin/products";
+        return "redirect:/admin/product/" + id;
     }
 
     @GetMapping("/admin/orders")

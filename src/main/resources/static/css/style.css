@@ -613,25 +613,7 @@ body {
     color: #807b7b;
 }
 
-@media (max-width: 1100px) {
 
-    .topnav {
-        height: 100px;
-        width: 100px;
-        background-color:#04AA6D;
-
-    }
-
-    .topnav a{
-        visibility: hidden;
-        
-    }
-
-    .topnav .logout-button {
-        visibility: hidden;
-    }
-    
-}
 
 /* CSS for login page */
 

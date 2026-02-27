@@ -17,7 +17,7 @@
                 <p class="item-name" th:text="${product.title}">Item</p>
                 <p class="item-price" th:text="'€' + ${product.price}">€0.00</p>
                 <button th:if="${isUser}" class="add-to-basket">Add to Basket</button>
-                <a th:if="${isAdmin}" href="/admin/products" class="add-to-basket">Manage Product</a>
+                <a th:if="${isAdmin}" th:href="@{/admin/product/{id}(id=${product.id})}" class="add-to-basket">Manage Product</a>
             </div>
         </div>
     </div>
