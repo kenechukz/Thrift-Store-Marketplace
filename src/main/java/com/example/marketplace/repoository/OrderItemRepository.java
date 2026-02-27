@@ -13,6 +13,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query("""
             SELECT oi.product
             FROM OrderItem oi
+            WHERE oi.product.visible = true OR oi.product.visible IS NULL
             GROUP BY oi.product
             ORDER BY SUM(oi.quantity) DESC
             """)

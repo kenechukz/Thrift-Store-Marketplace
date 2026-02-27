@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import com.example.marketplace.model.Order;
+import com.example.marketplace.model.PrincipalType;
 import com.example.marketplace.repoository.OrderRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,11 @@ public class OrdersController {
     @GetMapping( "/orders")
     public String orders(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
+        PrincipalType principalType = session != null ? (PrincipalType) session.getAttribute("principalType") : null;
+        if (principalType != PrincipalType.USER) {
+            return "redirect:/home";
+        }
+
         Long userId = session != null ? (Long) session.getAttribute("userId") : null;
         List<Order> orders = userId != null ? orderRepository.findByUserIdWithItems(userId) : List.of();
 

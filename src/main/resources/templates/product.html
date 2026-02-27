@@ -31,7 +31,8 @@
                     </div>
                 </div>
                 <hr>
-                <button class="product-add-to-basket" th:attr="data-id=${product.id}">Add to Basket</button>
+                <button th:if="${isUser}" class="product-add-to-basket" th:attr="data-id=${product.id}">Add to Basket</button>
+                <a th:if="${isAdmin}" href="/admin/products" class="product-add-to-basket">Manage Product</a>
                 <div class="shipping-info">
                     <div class="info-box">
                         <p>No returns</p>
@@ -64,7 +65,8 @@
             <div class="catalogue-item-image"></div>
             <p th:text="${rec.title}">Item</p>
             <p th:text="'€' + ${rec.price}">€0.00</p>
-            <button class="add-to-basket">Add to Basket</button>
+            <button th:if="${isUser}" class="add-to-basket">Add to Basket</button>
+            <a th:if="${isAdmin}" href="/admin/products" class="add-to-basket">Manage Product</a>
         </div>
     </div>
     <script th:src="@{/js/add_to_basket.js}"></script>

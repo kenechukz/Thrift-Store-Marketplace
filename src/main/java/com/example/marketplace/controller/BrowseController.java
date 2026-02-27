@@ -1,6 +1,7 @@
 package com.example.marketplace.controller;
 import com.example.marketplace.model.Product;
 import com.example.marketplace.model.Basket;
+import com.example.marketplace.model.PrincipalType;
 import com.example.marketplace.repoository.OrderItemRepository;
 import com.example.marketplace.repoository.ProductRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +37,7 @@ public class BrowseController {
     public String home(Model model, HttpServletRequest request) {
         List<Product> hottestProducts = this.orderItemRepository.findTopSellingProducts(PageRequest.of(0, 3));
         if (hottestProducts.isEmpty()) {
-            hottestProducts = this.productRepository.findAll()
+            hottestProducts = this.productRepository.findByVisibleTrue()
                     .stream()
                     .limit(3)
                     .toList();
@@ -51,7 +52,7 @@ public class BrowseController {
     @GetMapping( "/catalogue")
     public String catalogue(Model model, HttpServletRequest request) {
 
-        List<Product> products = this.productRepository.findAll();
+        List<Product> products = this.productRepository.findByVisibleTrue();
         model.addAttribute("products", products);
         model.addAttribute("message", "Catalogue");
         model.addAttribute("item_name", "Item");
@@ -63,17 +64,21 @@ public class BrowseController {
     @GetMapping( "/products/{id}")
     public String product(@PathVariable Long id, Model model, HttpServletRequest request) {
         Optional<Product> productOptional = this.productRepository.findById(id);
+        if (productOptional.isEmpty()) {
+            return "redirect:/catalogue";
+        }
+
+        HttpSession session = request.getSession(false);
+        PrincipalType principalType = session != null ? (PrincipalType) session.getAttribute("principalType") : null;
+        Product product = productOptional.get();
+        if (!product.isVisible() && principalType != PrincipalType.ADMIN) {
+            return "redirect:/catalogue";
+        }
+
         List<Product> recommendedProducts = this.productRepository.find3RandomExcluding(id);
-        Product product;
-        if (productOptional.orElse(null) != null){
-             product = productOptional.orElse(null);
-             String condition = product.getCondition().getLabel();
-             model.addAttribute("condition", condition);
-             model.addAttribute("product", product);
-        }
-        else{
-            model.addAttribute("product", null);
-        }
+        String condition = product.getCondition().getLabel();
+        model.addAttribute("condition", condition);
+        model.addAttribute("product", product);
         model.addAttribute("recommended_products", recommendedProducts);
         model.addAttribute("path", request.getRequestURI());
         return "product";
@@ -82,6 +87,11 @@ public class BrowseController {
     @PostMapping("/basket/{id}")
     public ResponseEntity<Map<String, Object>> addToBasket(@PathVariable Long id,Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
+        PrincipalType principalType = (PrincipalType) session.getAttribute("principalType");
+        if (principalType != PrincipalType.USER) {
+            return ResponseEntity.status(403).body(Map.of("error", "Only users can add items to basket"));
+        }
+
         Basket basket = (Basket) session.getAttribute("basket");
         if (basket == null) {
             Long userId = (Long) session.getAttribute("userId");
@@ -97,7 +107,7 @@ public class BrowseController {
 
         Optional<Product> optProduct = this.productRepository.findById(id);
 
-        if (optProduct.isPresent()){
+        if (optProduct.isPresent() && optProduct.get().isVisible()){
             basket.items.put(id, new Basket.BasketItem(optProduct.get(), 1));
             session.setAttribute("basket", basket);
             return ResponseEntity.ok(Map.of("basketCount", basket.getTotalQuantity()));

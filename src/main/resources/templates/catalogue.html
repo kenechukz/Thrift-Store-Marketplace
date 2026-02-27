@@ -13,7 +13,8 @@
                 <div class="catalogue-item-image"><img th:src="@{'/images/' + ${product.imageUrl}}" ></div>
                 <p th:text="${product.title}">Item</p>
                 <p th:text="'€' + ${product.price}">€0.00</p>
-                <button class="add-to-basket">Add to Basket</button>
+                <button th:if="${isUser}" class="add-to-basket">Add to Basket</button>
+                <a th:if="${isAdmin}" href="/admin/products" class="add-to-basket">Manage Product</a>
             </div>
         </div>
     </div>

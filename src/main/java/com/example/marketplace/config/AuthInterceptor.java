@@ -3,6 +3,7 @@ package com.example.marketplace.config;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import com.example.marketplace.model.PrincipalType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,11 +19,26 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("userId") != null) {
-            return true;
+        PrincipalType principalType = session != null ? (PrincipalType) session.getAttribute("principalType") : null;
+        if (principalType == null) {
+            response.sendRedirect("/login");
+            return false;
         }
 
-        response.sendRedirect("/login");
+        if (isAdminPath(path) && principalType != PrincipalType.ADMIN) {
+            response.sendRedirect("/home");
+            return false;
+        }
+
+        if (isUserOnlyPath(path) && principalType != PrincipalType.USER) {
+            response.sendRedirect("/home");
+            return false;
+        }
+
+        if (session != null) {
+            return true;
+        }
+        response.sendRedirect("/home");
         return false;
     }
 
@@ -34,5 +50,16 @@ public class AuthInterceptor implements HandlerInterceptor {
                 || path.startsWith("/js/")
                 || path.startsWith("/images/")
                 || path.startsWith("/h2-console/");
+    }
+
+    private boolean isAdminPath(String path) {
+        return path.startsWith("/admin");
+    }
+
+    private boolean isUserOnlyPath(String path) {
+        return path.startsWith("/basket")
+                || path.startsWith("/checkout")
+                || path.equals("/orders")
+                || path.startsWith("/orders/");
     }
 }

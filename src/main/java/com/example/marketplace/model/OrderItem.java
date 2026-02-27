@@ -39,8 +39,11 @@ public class OrderItem {
     @Column(nullable = false)
     private Integer quantity;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(precision = 10, scale = 2)
     private BigDecimal unitPrice;
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal unitPriceAtPurchase;
 
     public Long getId() {
         return id;
@@ -80,5 +83,13 @@ public class OrderItem {
 
     public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
+    }
+
+    public BigDecimal getUnitPriceAtPurchase() {
+        return unitPriceAtPurchase;
+    }
+
+    public void setUnitPriceAtPurchase(BigDecimal unitPriceAtPurchase) {
+        this.unitPriceAtPurchase = unitPriceAtPurchase;
     }
 }

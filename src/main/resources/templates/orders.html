@@ -35,7 +35,7 @@
                                 <p class="order-item-name" th:text="${item.product.title}">Item</p>
                                 <p class="order-item-qty" th:text="'Qty: ' + ${item.quantity}">Qty: 1</p>
                             </div>
-                            <p class="order-item-price" th:text="'€' + ${#numbers.formatDecimal(item.unitPrice * item.quantity, 1, 2)}">€0.00</p>
+                            <p class="order-item-price" th:text="'€' + ${#numbers.formatDecimal((item.unitPriceAtPurchase != null ? item.unitPriceAtPurchase : item.unitPrice) * item.quantity, 1, 2)}">€0.00</p>
                         </div>
                         <hr class="order-item-divider" th:if="${!itemStat.last}">
                     </div>

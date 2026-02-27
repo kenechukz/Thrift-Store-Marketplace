@@ -25,6 +25,8 @@ public class Product implements Serializable {
     private String description;
     @Column(nullable = false, length = 300)
     private String imageUrl;
+    @Column
+    private Boolean visible = true;
 
 
     public Product(){
@@ -89,12 +91,24 @@ public class Product implements Serializable {
         return this.description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public void setImageUrl(String url){
         this.imageUrl = url;
     }
 
     public String getImageUrl(){
         return this.imageUrl;
+    }
+
+    public boolean isVisible() {
+        return visible == null || visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }
 

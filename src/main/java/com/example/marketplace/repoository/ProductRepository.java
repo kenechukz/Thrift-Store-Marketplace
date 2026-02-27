@@ -9,6 +9,12 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query(value = "SELECT * FROM PRODUCT WHERE ID <> :id ORDER BY RAND() LIMIT 3", nativeQuery = true)
+    @Query(value = "SELECT * FROM PRODUCT WHERE (visible = true OR visible IS NULL) AND ID <> :id ORDER BY RAND() LIMIT 3", nativeQuery = true)
     List<Product> find3RandomExcluding(@Param("id") Long id);
+
+    @Query(value = "SELECT * FROM PRODUCT WHERE visible = true OR visible IS NULL", nativeQuery = true)
+    List<Product> findByVisibleTrue();
+
+    @Query(value = "SELECT * FROM PRODUCT WHERE (visible = true OR visible IS NULL) ORDER BY RAND() LIMIT :limit", nativeQuery = true)
+    List<Product> findVisibleRandom(@Param("limit") int limit);
 }

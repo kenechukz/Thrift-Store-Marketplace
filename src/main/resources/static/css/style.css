@@ -827,6 +827,16 @@ body {
     text-decoration-color: #1f1f1f;
 }
 
+.auth-error {
+    margin: 0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #fee4e2;
+    color: #b42318;
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .login-submit {
     width: 100%;
     justify-self: stretch;

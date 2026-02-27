@@ -15,6 +15,7 @@ import com.example.marketplace.model.Basket;
 import com.example.marketplace.model.Order;
 import com.example.marketplace.model.OrderItem;
 import com.example.marketplace.model.OrderStatus;
+import com.example.marketplace.model.PrincipalType;
 import com.example.marketplace.model.Product;
 import com.example.marketplace.model.User;
 import com.example.marketplace.repoository.OrderRepository;
@@ -103,9 +104,10 @@ public class CheckoutController {
         List<Map<String, Object>> items = order.getOrderItems().stream()
                 .map(item -> {
                     Map<String, Object> itemPayload = new LinkedHashMap<>();
+                    BigDecimal purchasePrice = item.getUnitPriceAtPurchase() != null ? item.getUnitPriceAtPurchase() : item.getUnitPrice();
                     itemPayload.put("productId", item.getProduct().getId());
                     itemPayload.put("quantity", item.getQuantity());
-                    itemPayload.put("unitPrice", moneyString(item.getUnitPrice()));
+                    itemPayload.put("unitPriceAtPurchase", moneyString(purchasePrice));
                     return itemPayload;
                 })
                 .toList();
@@ -201,6 +203,12 @@ public class CheckoutController {
     @PostMapping("/checkout")
     @ResponseBody
     public ResponseEntity<?> checkout(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        PrincipalType principalType = session != null ? (PrincipalType) session.getAttribute("principalType") : null;
+        if (principalType != PrincipalType.USER) {
+            return ResponseEntity.status(403).body(Map.of("error", "Only users can checkout"));
+        }
+
         Basket basket = getBasketFromSession(request);
         if (basket == null || basket.items.isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of("error", "Basket is empty"));
@@ -216,7 +224,8 @@ public class CheckoutController {
 
         try {
             User user = userOptional.get();
-            Order order = new Order(user, LocalDateTime.now(), basket.getTotal(), OrderStatus.PAID);
+            BigDecimal orderTotal = BigDecimal.ZERO;
+            Order order = new Order(user, LocalDateTime.now(), BigDecimal.ZERO, OrderStatus.PAID);
             order.setOrderNumber(nextOrderNumber());
             Set<Long> productIds = new HashSet<>(basket.items.keySet());
             List<Product> products = productRepository.findAllById(productIds);
@@ -239,8 +248,11 @@ public class CheckoutController {
                 orderItem.setProduct(product);
                 orderItem.setQuantity(basketItem.getQuantity());
                 orderItem.setUnitPrice(product.getPrice());
+                orderItem.setUnitPriceAtPurchase(product.getPrice());
                 order.addOrderItem(orderItem);
+                orderTotal = orderTotal.add(product.getPrice().multiply(BigDecimal.valueOf(basketItem.getQuantity())));
             }
+            order.setTotal(orderTotal.add(basket.getShipping()));
 
             this.orderRepository.save(order);
 

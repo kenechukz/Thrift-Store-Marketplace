@@ -17,4 +17,13 @@ public interface OrderRepository extends JpaRepository<Order, UUID>{
             ORDER BY o.date DESC
             """)
     List<Order> findByUserIdWithItems(@Param("userId") Long userId);
+
+    @Query("""
+            SELECT DISTINCT o
+            FROM Order o
+            LEFT JOIN FETCH o.orderItems oi
+            LEFT JOIN FETCH oi.product
+            ORDER BY o.date DESC
+            """)
+    List<Order> findAllWithItems();
 }
