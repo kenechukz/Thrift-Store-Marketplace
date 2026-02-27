@@ -75,7 +75,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User loginForm, @RequestParam("confirmPassword") String confirmedPassword, Model model, HttpServletRequest request){
+    public String registerUser(@ModelAttribute User loginForm, @RequestParam("confirmedPassword") String confirmedPassword, Model model, HttpServletRequest request){
 
         String email = loginForm.getEmail();
         String registeredPassword = loginForm.getPassword();
@@ -97,11 +97,22 @@ public class AuthController {
 
     @GetMapping("/logout")
     public String logout(Model model, HttpServletRequest request){
-        HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("userId") != null){
-            session.invalidate();
-        }
+        invalidateUserSession(request);
 
         return "redirect:/login";
+    }
+
+    @PostMapping("/logout")
+    public String submitLogout(HttpServletRequest request) {
+        invalidateUserSession(request);
+
+        return "redirect:/login";
+    }
+
+    private void invalidateUserSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
     }
 }

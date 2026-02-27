@@ -11,6 +11,9 @@
         <a th:classappend="${path == '/catalogue'} ? ' active' : ''" href="/catalogue">Catalogue</a>
         <a th:classappend="${path == '/basket'} ? ' active' : ''" href="/basket">Basket</a>
         <a th:classappend="${path == '/orders'} ? ' active' : ''" href="/orders">Orders</a>
+        <form action="/logout" method="post" class="logout-form">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
     </div>
 </body>
 </html>
