@@ -13,28 +13,36 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.marketplace.model.Basket;
 import com.example.marketplace.model.Order;
+import com.example.marketplace.model.OrderItem;
 import com.example.marketplace.model.OrderStatus;
+import com.example.marketplace.model.Product;
 import com.example.marketplace.model.User;
 import com.example.marketplace.repoository.OrderRepository;
+import com.example.marketplace.repoository.ProductRepository;
 import com.example.marketplace.repoository.UserRepository;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class CheckoutController {
     private static final BigDecimal ZERO_MONEY = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
-    public CheckoutController(UserRepository userRepository, OrderRepository orderRepository) {
+    public CheckoutController(UserRepository userRepository, OrderRepository orderRepository, ProductRepository productRepository) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
     }
 
     private Basket getBasketFromSession(HttpServletRequest request) {
@@ -87,12 +95,22 @@ public class CheckoutController {
     }
 
     private Map<String, Object> createOrderPayload(Order order){
+        List<Map<String, Object>> items = order.getOrderItems().stream()
+                .map(item -> {
+                    Map<String, Object> itemPayload = new LinkedHashMap<>();
+                    itemPayload.put("productId", item.getProduct().getId());
+                    itemPayload.put("quantity", item.getQuantity());
+                    itemPayload.put("unitPrice", moneyString(item.getUnitPrice()));
+                    return itemPayload;
+                })
+                .toList();
+
         Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("orderId", order.getId());
         payload.put("orderNumber", order.getOrderNumber());
         payload.put("date",order.getDate());
-        payload.put("orderItems",order.getOrderItems());
-        payload.put("total", order.getTotal());
+        payload.put("orderItems", items);
+        payload.put("total", moneyString(order.getTotal()));
         payload.put("orderStatus", order.getOrderStatus());
 
         return payload;
@@ -194,6 +212,30 @@ public class CheckoutController {
         try {
             User user = userOptional.get();
             Order order = new Order(user, LocalDateTime.now(), basket.getTotal(), OrderStatus.PAID);
+            Set<Long> productIds = new HashSet<>(basket.items.keySet());
+            List<Product> products = productRepository.findAllById(productIds);
+            Map<Long, Product> productById = products.stream()
+                    .collect(Collectors.toMap(Product::getId, product -> product));
+
+            if (products.size() != productIds.size()) {
+                return ResponseEntity.badRequest().body(Map.of("error", "One or more products in basket no longer exist"));
+            }
+
+            for (Map.Entry<Long, Basket.BasketItem> entry : basket.items.entrySet()) {
+                Long productId = entry.getKey();
+                Basket.BasketItem basketItem = entry.getValue();
+                Product product = productById.get(productId);
+                if (product == null) {
+                    return ResponseEntity.badRequest().body(Map.of("error", "Invalid basket product"));
+                }
+
+                OrderItem orderItem = new OrderItem();
+                orderItem.setProduct(product);
+                orderItem.setQuantity(basketItem.getQuantity());
+                orderItem.setUnitPrice(product.getPrice());
+                order.addOrderItem(orderItem);
+            }
+
             this.orderRepository.save(order);
 
             // Clear basket after successful checkout.

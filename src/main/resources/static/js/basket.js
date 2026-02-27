@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showCheckoutMessage(`Order placed: ${payload.orderNumber || "success"}`);
             setTimeout(() => {
                 window.location.href = "/basket";
-            }, 1000);
+            }, 2000);
         } catch (error) {
             console.error(error);
             showCheckoutMessage(error.message || "Checkout failed. Please try again.", true);
