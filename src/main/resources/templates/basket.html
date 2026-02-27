@@ -9,12 +9,12 @@
 
     <div class="basket-body">
         <h1>Shopping Basket</h1>
-        <p th:if="${basketCount == 0}">Your basket is empty.</p>
+        <p id="basket-empty-message" th:style="${basketCount == 0} ? '' : 'display:none;'">Your basket is empty.</p>
 
         <div class="basket">
             <div class="basket-items">
-                <div th:each="item : ${basketItems}" class="basket-item">
-                    <form th:action="@{/basket/remove/{id}(id=${item.product.id})}" method="post" class="basket-item-delete-form">
+                <div th:each="item : ${basketItems}" class="basket-item" th:attr="data-product-id=${item.product.id}">
+                    <form th:action="@{/basket/remove/{id}(id=${item.product.id})}" method="post" class="basket-item-delete-form" data-basket-action-form>
                         <button type="submit" class="basket-item-delete">Delete</button>
                     </form>
                     <div class="basket-item-image"><img th:src="@{/images/{file}(file=${item.product.imageUrl})}"></div>
@@ -22,14 +22,14 @@
                         <p th:text="${item.product.title}">Item</p>
                         <p th:text="'€' + ${item.product.price}">€0.00</p>
                         <div class="quantity">
-                            <form th:action="@{/basket/decrement/{id}(id=${item.product.id})}" method="post" style="margin: 0;">
+                            <form th:action="@{/basket/decrement/{id}(id=${item.product.id})}" method="post" style="margin: 0;" data-basket-action-form>
                                 <button type="submit" class="quantity-box">-</button>
                             </form>
-                            <div th:text="${item.quantity}" class="quantity-box" style="width: 35px; border-radius: 0;">0</div>
-                            <form th:action="@{/basket/increment/{id}(id=${item.product.id})}" method="post" style="margin: 0;">
+                            <div th:text="${item.quantity}" class="quantity-box js-item-quantity" style="width: 35px; border-radius: 0;">0</div>
+                            <form th:action="@{/basket/increment/{id}(id=${item.product.id})}" method="post" style="margin: 0;" data-basket-action-form>
                                 <button type="submit" class="quantity-box">+</button>
                             </form>
-                            <p th:text="'€' + ${item.subtotal}" style="margin-top: 5px; margin-bottom: 0; margin-left: 350px; font-weight: 600;">€0.00</p>
+                            <p th:text="'€' + ${item.subtotal}" class="js-item-subtotal" style="margin-top: 5px; margin-bottom: 0; margin-left: 350px; font-weight: 600;">€0.00</p>
                         </div>
                     </div>
                 </div>
@@ -39,18 +39,17 @@
 
                 <div class="order-summary-footer">
                     <p>Subtotal</p>
-                    <p th:text="'€' + ${subTotal}" style="color: black;">€0.00</p>
+                    <p id="basket-subtotal" th:text="'€' + ${subTotal}" style="color: black;">€0.00</p>
                     <p>Shipping</p>
-                    <p th:if="${basketCount == 0}" style="color: black;"></p>
-                    <p th:if="${basketCount != 0}" th:text="'€' + ${shipping}" style="color: black;">€0.00</p>
+                    <p id="basket-shipping" th:text="${basketCount == 0} ? '' : '€' + ${shipping}" style="color: black;"></p>
                     <p>Total</p>
-                    <p th:if="${basketCount == 0}" style="color: black;">€0.00</p>
-                    <p th:if="${basketCount != 0}" th:text="'€' + ${total}" style="color: black;">€0.00</p>
-                    <button th:if="${basketCount != 0}" class="basket-checkout">Proceed to Checkout</button>
+                    <p id="basket-total" th:text="${basketCount == 0} ? '€0.00' : '€' + ${total}" style="color: black;">€0.00</p>
+                    <button id="basket-checkout-btn" th:style="${basketCount == 0} ? 'display:none;' : ''" class="basket-checkout">Proceed to Checkout</button>
                 </div>
             </div>
         </div>
     </div>
+    <script th:src="@{/js/basket.js}"></script>
 </body>
 </html>
 
