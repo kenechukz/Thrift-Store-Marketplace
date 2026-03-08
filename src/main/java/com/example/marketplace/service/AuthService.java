@@ -1,7 +1,7 @@
 package com.example.marketplace.service;
 
 import com.example.marketplace.model.User;
-import com.example.marketplace.repoository.UserRepository;
+import com.example.marketplace.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -63,9 +63,12 @@
                 <button type="submit" class="add-to-basket">Save Changes</button>
             </form>
 
-            <form th:action="@{/admin/products/{id}/visibility(id=${product.id})}" method="post">
+            <form th:action="@{/admin/products/{id}/visibility(id=${product.id})}" method="post" style="display: inline;">
                 <input type="hidden" name="visible" th:value="${!product.visible}">
                 <button type="submit" class="add-to-basket" th:text="${product.visible} ? 'Hide Product' : 'Unhide Product'"></button>
+            </form>
+            <form th:action="@{/admin/products/{id}/delete(id=${product.id})}" method="post" style="display: inline; margin-left: 8px;">
+                <button type="submit" class="add-to-basket" style="background-color: #b42318;" onclick="return confirm('Are you sure you want to delete this product?');">Delete</button>
             </form>
         </div>
     </div>

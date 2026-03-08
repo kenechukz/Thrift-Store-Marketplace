@@ -1,4 +1,4 @@
-package com.example.marketplace.repoository;
+package com.example.marketplace.repository;
 import com.example.marketplace.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

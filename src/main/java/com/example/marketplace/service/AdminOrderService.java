@@ -2,7 +2,7 @@ package com.example.marketplace.service;
 
 import com.example.marketplace.model.Order;
 import com.example.marketplace.model.OrderStatus;
-import com.example.marketplace.repoository.OrderRepository;
+import com.example.marketplace.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

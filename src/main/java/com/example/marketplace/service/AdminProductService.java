@@ -1,8 +1,10 @@
 package com.example.marketplace.service;
 
 import com.example.marketplace.model.Product;
-import com.example.marketplace.repoository.ProductRepository;
+import com.example.marketplace.repository.OrderItemRepository;
+import com.example.marketplace.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,9 +13,11 @@ import java.util.Optional;
 public class AdminProductService {
 
     private final ProductRepository productRepository;
+    private final OrderItemRepository orderItemRepository;
 
-    public AdminProductService(ProductRepository productRepository) {
+    public AdminProductService(ProductRepository productRepository, OrderItemRepository orderItemRepository) {
         this.productRepository = productRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     public List<Product> findAllProducts() {
@@ -56,5 +60,17 @@ public class AdminProductService {
         Product existingProduct = optionalProduct.get();
         existingProduct.setVisible(visible);
         return Optional.of(productRepository.save(existingProduct));
+    }
+
+    @Transactional
+    public boolean deleteProduct(Long id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            return false;
+        }
+
+        orderItemRepository.clearProductReference(id);
+        productRepository.deleteById(id);
+        return true;
     }
 }

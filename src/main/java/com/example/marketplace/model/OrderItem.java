@@ -28,10 +28,9 @@ public class OrderItem {
     )
     private Order order;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "product_id",
-            nullable = false,
             foreignKey = @ForeignKey(name = "fk_order_item_product")
     )
     private Product product;

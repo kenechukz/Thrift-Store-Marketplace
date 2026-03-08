@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.servlet.http.HttpSession;
 
 import com.example.marketplace.model.Admin;
-import com.example.marketplace.repoository.UserRepository;
-import com.example.marketplace.repoository.AdminRepository;
+import com.example.marketplace.repository.UserRepository;
+import com.example.marketplace.repository.AdminRepository;
 import com.example.marketplace.model.Basket;
 import com.example.marketplace.model.PrincipalType;
 import com.example.marketplace.model.User;

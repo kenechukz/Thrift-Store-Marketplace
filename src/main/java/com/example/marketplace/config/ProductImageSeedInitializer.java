@@ -3,7 +3,7 @@ package com.example.marketplace.config;
 import com.example.marketplace.model.Product;
 import com.example.marketplace.model.ProductCondition;
 import com.example.marketplace.model.Size;
-import com.example.marketplace.repoository.ProductRepository;
+import com.example.marketplace.repository.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;

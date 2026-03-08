@@ -2,8 +2,8 @@ package com.example.marketplace.controller;
 import com.example.marketplace.model.Product;
 import com.example.marketplace.model.Basket;
 import com.example.marketplace.model.PrincipalType;
-import com.example.marketplace.repoository.OrderItemRepository;
-import com.example.marketplace.repoository.ProductRepository;
+import com.example.marketplace.repository.OrderItemRepository;
+import com.example.marketplace.repository.ProductRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 

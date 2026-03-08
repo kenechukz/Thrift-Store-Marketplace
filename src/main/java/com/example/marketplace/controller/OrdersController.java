@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpSession;
 
 import com.example.marketplace.model.Order;
 import com.example.marketplace.model.PrincipalType;
-import com.example.marketplace.repoository.OrderRepository;
+import com.example.marketplace.repository.OrderRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -49,6 +49,10 @@
             <button type="submit" class="add-to-basket" th:text="${product.visible} ? 'Hide Product' : 'Unhide Product'"></button>
         </form>
 
+        <form th:action="@{/admin/products/{id}/delete(id=${product.id})}" method="post" style="margin-bottom: 12px;">
+            <button type="submit" class="add-to-basket" style="background-color: #b42318;" onclick="return confirm('Are you sure you want to delete this product?');">Delete Product</button>
+        </form>
+
         <a href="/admin/products" class="add-to-basket">Back to Product List</a>
     </div>
 </div>

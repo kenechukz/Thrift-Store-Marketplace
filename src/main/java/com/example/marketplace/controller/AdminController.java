@@ -77,6 +77,12 @@ public class AdminController {
         return "redirect:/admin/product/" + id;
     }
 
+    @PostMapping("/admin/products/{id}/delete")
+    public String deleteProduct(@PathVariable Long id) {
+        adminProductService.deleteProduct(id);
+        return "redirect:/admin/products";
+    }
+
     @GetMapping("/admin/orders")
     public String adminOrders(Model model, HttpServletRequest request) {
         List<Order> orders = adminOrderService.findAllOrders();

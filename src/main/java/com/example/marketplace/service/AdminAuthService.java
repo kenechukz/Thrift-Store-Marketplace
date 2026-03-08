@@ -1,7 +1,7 @@
 package com.example.marketplace.service;
 
 import com.example.marketplace.model.Admin;
-import com.example.marketplace.repoository.AdminRepository;
+import com.example.marketplace.repository.AdminRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

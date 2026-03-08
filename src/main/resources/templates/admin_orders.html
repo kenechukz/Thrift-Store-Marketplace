@@ -38,10 +38,10 @@
                 <div th:each="item, itemStat : ${order.orderItems}">
                     <div class="order-item">
                         <div class="order-item-image">
-                            <img th:src="@{/images/{file}(file=${item.product.imageUrl})}" th:alt="${item.product.title}">
+                            <img th:if="${item.product != null}" th:src="@{/images/{file}(file=${item.product.imageUrl})}" th:alt="${item.product.title}">
                         </div>
                         <div class="order-item-details">
-                            <p class="order-item-name" th:text="${item.product.title}">Item</p>
+                            <p class="order-item-name" th:text="${item.product != null ? item.product.title : 'Deleted Product'}">Item</p>
                             <p class="order-item-qty" th:text="'Qty: ' + ${item.quantity}">Qty: 1</p>
                         </div>
                         <p class="order-item-price" th:text="'€' + ${#numbers.formatDecimal((item.unitPriceAtPurchase != null ? item.unitPriceAtPurchase : item.unitPrice) * item.quantity, 1, 2)}">�0.00</p>
