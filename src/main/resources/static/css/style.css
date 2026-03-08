@@ -92,8 +92,28 @@ body {
     margin: 0 auto;
 }
 
-.home-body h1 {
+.home-hero {
+    margin-bottom: 32px;
     margin-left: 16px;
+}
+
+.home-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+}
+
+.home-description {
+    color: #666;
+    font-size: 15px;
+    margin: 0;
+}
+
+.home-body h2 {
+    margin-left: 16px;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 16px;
 }
 
 .items-container {

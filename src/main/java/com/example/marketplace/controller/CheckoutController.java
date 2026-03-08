@@ -3,6 +3,9 @@ package com.example.marketplace.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +38,7 @@ import java.util.stream.Collectors;
 
 @Controller
 public class CheckoutController {
+    private static final Logger log = LoggerFactory.getLogger(CheckoutController.class);
     private static final BigDecimal ZERO_MONEY = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
@@ -95,9 +99,8 @@ public class CheckoutController {
         return payload;
     }
 
-    private String nextOrderNumber() {
-        long next = orderRepository.count() + 1;
-        return String.format("%04d", next);
+    private String nextOrderNumber(int value) {
+        return String.format("%04d", value);
     }
 
     private Map<String, Object> createOrderPayload(Order order){
@@ -135,6 +138,11 @@ public class CheckoutController {
         model.addAttribute("shipping", basket != null ? basket.getShipping() : java.math.BigDecimal.ZERO);
         model.addAttribute("total", basket != null ? basket.getTotal() : java.math.BigDecimal.ZERO);
         return "basket";
+    }
+
+    @GetMapping("/checkout")
+    public String checkoutPage() {
+        return "redirect:/basket";
     }
 
     @PostMapping("/basket/remove/{id}")
@@ -226,7 +234,6 @@ public class CheckoutController {
             User user = userOptional.get();
             BigDecimal orderTotal = BigDecimal.ZERO;
             Order order = new Order(user, LocalDateTime.now(), BigDecimal.ZERO, OrderStatus.PAID);
-            order.setOrderNumber(nextOrderNumber());
             Set<Long> productIds = new HashSet<>(basket.items.keySet());
             List<Product> products = productRepository.findAllById(productIds);
             Map<Long, Product> productById = products.stream()
@@ -253,14 +260,29 @@ public class CheckoutController {
                 orderTotal = orderTotal.add(product.getPrice().multiply(BigDecimal.valueOf(basketItem.getQuantity())));
             }
             order.setTotal(orderTotal.add(basket.getShipping()));
-
-            this.orderRepository.save(order);
+            int nextOrderNumberValue = orderRepository.findMaxOrderNumberValue() + 1;
+            boolean saved = false;
+            for (int attempt = 0; attempt < 10; attempt++) {
+                order.setOrderNumber(nextOrderNumber(nextOrderNumberValue + attempt));
+                try {
+                    this.orderRepository.saveAndFlush(order);
+                    saved = true;
+                    break;
+                } catch (DataIntegrityViolationException e) {
+                    log.warn("Order number {} already exists, retrying", order.getOrderNumber());
+                }
+            }
+            if (!saved) {
+                log.error("Checkout failed for user {} after exhausting sequential order number retries", basket.getUserId());
+                return ResponseEntity.internalServerError().body(Map.of("error", "Unable to allocate order number"));
+            }
 
             // Clear basket after successful checkout.
             saveBasket(request, new Basket(user.getId()));
 
             return ResponseEntity.status(201).body(createOrderPayload(order));
         } catch (Exception e) {
+            log.error("Checkout failed for user {}", basket.getUserId(), e);
             return ResponseEntity.internalServerError().body(Map.of("error", "Checkout failed"));
         }
     }

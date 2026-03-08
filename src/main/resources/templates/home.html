@@ -8,7 +8,11 @@
     <div th:replace="~{navbar :: navbar}"></div>
 
     <div class="home-body">
-        <h1 th:text="${message}">Placeholder</h1>
+        <div class="home-hero">
+            <h1 class="home-title">Thrift Store Marketplace</h1>
+            <p class="home-description">Find unique second-hand treasures, to transform your wardrobe, vibe and lifestyle!</p>
+        </div>
+        <h2 th:text="${message}">Placeholder</h2>
         <div class="items-container">
             <div th:each="product : ${products}" class="item-card" th:attr="data-id=${product.id}">
                 <div class="item-image">

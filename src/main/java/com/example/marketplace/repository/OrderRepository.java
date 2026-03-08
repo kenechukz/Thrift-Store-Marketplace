@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface OrderRepository extends JpaRepository<Order, UUID>{
+    boolean existsByOrderNumber(String orderNumber);
+
     @Query("""
             SELECT DISTINCT o
             FROM Order o
@@ -26,4 +28,8 @@ public interface OrderRepository extends JpaRepository<Order, UUID>{
             ORDER BY o.date DESC
             """)
     List<Order> findAllWithItems();
+
+    @Query(value = "SELECT COALESCE(MAX(CAST(order_number AS INTEGER)), 0) FROM app_order", nativeQuery = true)
+    Integer findMaxOrderNumberValue();
+
 }
